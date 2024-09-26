@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,10 +19,10 @@ public class Poster {
     @Column(updatable = false, nullable = false)
     private Long id;
 
-    private String name;
+    private LocalDateTime datePosted;
 
-    private String contactNumber;
+    private String description;
 
-    private String emailAddress;
+    private String title;
 
 }
