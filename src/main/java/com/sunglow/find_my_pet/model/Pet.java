@@ -19,10 +19,24 @@ public class Pet {
     @Column(updatable = false, nullable = false)
     private Long id;
 
+    @Column
     private String name;
+
+    @Column
     private String colour;
+
+    @Column
     private Integer age;
+
+    @Column
     private Boolean isFound;
-    private HashMap<String, Double> location;
+
+    @Column
+    private Double longitude;
+
+    @Column
+    private Double latitude;
+
+    @Column
     private String imageURL;
 }
