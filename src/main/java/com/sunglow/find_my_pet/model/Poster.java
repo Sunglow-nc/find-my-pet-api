@@ -1,10 +1,12 @@
 package com.sunglow.find_my_pet.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -12,4 +14,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class Poster {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false)
+    private Long id;
+
+    private LocalDateTime datePosted;
+
+    private String description;
+
+    private String title;
+
 }
