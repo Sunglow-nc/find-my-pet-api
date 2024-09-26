@@ -39,4 +39,10 @@ public class Pet {
 
     @Column
     private String imageURL;
+
+    @OneToOne(mappedBy = "pet", fetch = FetchType.LAZY)
+    private Poster poster;
+
+    @OneToOne(mappedBy = "pet", fetch = FetchType.LAZY)
+    private Owner owner;
 }
