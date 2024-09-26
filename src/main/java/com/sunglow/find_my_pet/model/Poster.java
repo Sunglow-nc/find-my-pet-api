@@ -1,4 +1,4 @@
-package model;
+package com.sunglow.find_my_pet.model;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
