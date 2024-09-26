@@ -26,7 +26,7 @@ public class PosterController {
 
     @GetMapping("/posters/{id}")
     public ResponseEntity<Poster> getPosterById(@PathVariable Long id) {
-        return posterService.getPosterById(id);
+        return new ResponseEntity<Poster>(posterService.getPosterById(id), HttpStatus.FOUND);
     }
 
 }
