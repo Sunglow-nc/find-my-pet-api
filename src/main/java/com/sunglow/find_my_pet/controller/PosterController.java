@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,12 @@ public class PosterController {
 
     @GetMapping("/posters")
     public ResponseEntity<List<Poster>> getAllPosters() {
-        return new ResponseEntity<List<Poster>>(posterService.getAllAlbums(), HttpStatus.OK);
+        return new ResponseEntity<List<Poster>>(posterService.getAllPosters(), HttpStatus.OK);
+    }
+
+    @GetMapping("/posters/{id}")
+    public ResponseEntity<Poster> getPosterById(@PathVariable Long id) {
+        return posterService.getPosterById(id);
     }
 
 }
