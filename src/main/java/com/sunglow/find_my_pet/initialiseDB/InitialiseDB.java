@@ -34,8 +34,6 @@ public class InitialiseDB {
                     .lostDate(LocalDateTime.parse("2024-09-02T22:00"))
                     .build();
 
-            pet1 = petRepository.save(pet1);
-
             Owner owner1 = Owner.builder()
                     .name("Sarah Thompson")
                     .contactNumber("020 7946 0958")
@@ -43,7 +41,7 @@ public class InitialiseDB {
                     .pet(pet1)
                     .build();
 
-            owner1 = ownerRepository.save(owner1);
+            ownerRepository.save(owner1);
 
             Poster poster1 = Poster.builder()
                     .datePosted(LocalDateTime.parse("2024-09-26T10:15"))
@@ -66,7 +64,6 @@ public class InitialiseDB {
                 .lostDate(LocalDateTime.parse("2024-08-27T08:30"))
                 .build();
 
-            pet2 = petRepository.save(pet2);
 
             Owner owner2 = Owner.builder()
                 .name("Kevin Lee")
@@ -75,7 +72,7 @@ public class InitialiseDB {
                 .pet(pet2)
                 .build();
 
-            owner2 = ownerRepository.save(owner2);
+            ownerRepository.save(owner2);
 
             Poster poster2 = Poster.builder()
                 .datePosted(LocalDateTime.parse("2024-09-27T13:45"))
@@ -98,7 +95,6 @@ public class InitialiseDB {
                 .lostDate(LocalDateTime.parse("2024-09-23T11:00"))
                 .build();
 
-            pet3 = petRepository.save(pet3);
 
             Owner owner3 = Owner.builder()
                 .name("Emma Wilson")
@@ -107,7 +103,7 @@ public class InitialiseDB {
                 .pet(pet3)
                 .build();
 
-            owner3 = ownerRepository.save(owner3);
+            ownerRepository.save(owner3);
 
             Poster poster3 = Poster.builder()
                 .datePosted(LocalDateTime.parse("2024-09-24T15:30"))
@@ -130,7 +126,6 @@ public class InitialiseDB {
                 .lostDate(LocalDateTime.parse("2024-07-26T18:30"))
                 .build();
 
-            pet4 = petRepository.save(pet4);
 
             Owner owner4 = Owner.builder()
                 .name("John Smith")
@@ -139,7 +134,7 @@ public class InitialiseDB {
                 .pet(pet4)
                 .build();
 
-            owner4 = ownerRepository.save(owner4);
+            ownerRepository.save(owner4);
 
             Poster poster4 = Poster.builder()
                 .datePosted(LocalDateTime.parse("2024-08-04T11:00"))
@@ -162,7 +157,6 @@ public class InitialiseDB {
                 .lostDate(LocalDateTime.parse("2024-09-03T16:00"))
                 .build();
 
-            pet5 = petRepository.save(pet5);
 
             Owner owner5 = Owner.builder()
                 .name("Sophie Martin")
@@ -171,7 +165,7 @@ public class InitialiseDB {
                 .pet(pet5)
                 .build();
 
-            owner5 = ownerRepository.save(owner5);
+            ownerRepository.save(owner5);
 
             Poster poster5 = Poster.builder()
                 .datePosted(LocalDateTime.parse("2024-09-09T18:20"))
