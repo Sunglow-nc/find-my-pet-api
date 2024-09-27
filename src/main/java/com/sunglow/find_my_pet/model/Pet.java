@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @Entity
@@ -39,6 +40,9 @@ public class Pet {
 
     @Column
     private String imageURL;
+
+    @Column
+    private LocalDateTime lostDate;
 
     @OneToOne(mappedBy = "pet", fetch = FetchType.LAZY)
     private Poster poster;
