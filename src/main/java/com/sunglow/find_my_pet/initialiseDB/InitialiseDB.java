@@ -1,91 +1,177 @@
 package com.sunglow.find_my_pet.initialiseDB;
 
-import com.sunglow.find_my_pet.model.Pet;
+
 import com.sunglow.find_my_pet.model.Owner;
+import com.sunglow.find_my_pet.model.Pet;
 import com.sunglow.find_my_pet.model.Poster;
-import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sunglow.find_my_pet.repository.OwnerManagerRepository;
+import com.sunglow.find_my_pet.repository.PetManagerRepository;
+import com.sunglow.find_my_pet.repository.PosterManagerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
-import org.springframework.transaction.support.TransactionTemplate;
 
 @Configuration
 public class InitialiseDB {
 
-    @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
-    private TransactionTemplate transactionTemplate;
-
-    @Bean
-    CommandLineRunner populateDb() {
+    @Bean(name = "populateDb")
+    public CommandLineRunner populateDb(PetManagerRepository petRepository, OwnerManagerRepository ownerRepository, PosterManagerRepository posterRepository) {
         return args -> {
-            createPoster("Buddy", "Golden", 3, false, -0.1276, 51.5074,
-                "https://example.com/buddy.jpg", "John Smith", "020 7946 0958", "john.smith@gmail.co.uk",
-                "Medium-sized dog with a fluffy golden coat, floppy ears, and a bushy tail");
+            petRepository.deleteAll();
+            ownerRepository.deleteAll();
+            posterRepository.deleteAll();
 
-            createPoster("Max", "Black", 5, false, -2.2426, 53.4808,
-                "https://example.com/max.jpg", "Emma Jones", "0161 496 0287", "emma.jones@gmail.co.uk",
-                "Large dog with sleek black fur, pointy ears, and a white patch on the chest");
+            Pet pet1 = Pet.builder()
+                    .name("Whiskers")
+                    .colour("Grey")
+                    .age(3)
+                    .isFound(false)
+                    .longitude(-0.1278)
+                    .latitude(51.5074)
+                    .imageURL("https://example.com/whiskers.jpg")
+                    .lostDate(LocalDateTime.parse("2024-09-02T22:00"))
+                    .build();
 
-            createPoster("Charlie", "Brown", 2, false, -3.1883, 55.9533,
-                "https://example.com/charlie.jpg", "Olivia Brown", "0131 496 0236", "olivia.brown@yahoo.co.uk",
-                "Small terrier with scruffy brown fur, a black nose, and expressive eyebrows");
+            Owner owner1 = Owner.builder()
+                    .name("Sarah Thompson")
+                    .contactNumber("020 7946 0958")
+                    .emailAddress("sarah.t@gmail.com")
+                    .pet(pet1)
+                    .build();
+          
+            ownerRepository.save(owner1);
+          
+            Poster poster1 = Poster.builder()
+                    .datePosted(LocalDateTime.parse("2024-09-26T10:15"))
+                    .description("Gray tabby cat with green eyes. Wearing a blue collar with a bell.")
+                    .title("Missing Tabby Cat - Please Help")
+                    .pet(pet1)
+                    .build();
+          
+            posterRepository.save(poster1);
 
-            createPoster("Luna", "White", 1, false, -1.8904, 52.4862,
-                "https://example.com/luna.jpg", "William Taylor", "0121 496 0685", "william.taylor@yahoo.co.uk",
-                "Slender cat with pure white fur, bright blue eyes, and a long, fluffy tail");
 
-            createPoster("Milo", "Orange", 4, false, -2.5879, 51.4545,
-                "https://example.com/milo.jpg", "Sophie Evans", "0117 496 0534", "sophie.evans@yahoo.co.uk",
-                "Plump tabby cat with distinctive orange and white stripes, green eyes, and a pink nose");
+            Pet pet2 = Pet.builder()
+                .name("Mochi")
+                .colour("Cream")
+                .age(2)
+                .isFound(false)
+                .longitude(-2.2426)
+                .latitude(53.4808)
+                .imageURL("https://example.com/mochi.jpg")
+                .lostDate(LocalDateTime.parse("2024-08-27T08:30"))
+                .build();
+
+            Owner owner2 = Owner.builder()
+                .name("Kevin Lee")
+                .contactNumber("0161 496 0735")
+                .emailAddress("kevin.l@geemail.com")
+                .pet(pet2)
+                .build();
+
+            ownerRepository.save(owner2);
+
+            Poster poster2 = Poster.builder()
+                .datePosted(LocalDateTime.parse("2024-09-27T13:45"))
+                .description("Siamese cat with blue eyes. Very vocal and responds to 'Mochi'.")
+                .title("Lost Siamese Cat - Reward Offered")
+                .pet(pet2)
+                .build();
+
+            posterRepository.save(poster2);
+
+
+            Pet pet3 = Pet.builder()
+                .name("Fluffy")
+                .colour("Brown")
+                .age(5)
+                .isFound(false)
+                .longitude(-1.4746)
+                .latitude(52.5615)
+                .imageURL("https://example.com/fluffy.jpg")
+                .lostDate(LocalDateTime.parse("2024-09-23T11:00"))
+                .build();
+
+            Owner owner3 = Owner.builder()
+                .name("Emma Wilson")
+                .contactNumber("07700 900123")
+                .emailAddress("emma.w@gmail.com")
+                .pet(pet3)
+                .build();
+
+            ownerRepository.save(owner3);
+
+            Poster poster3 = Poster.builder()
+                .datePosted(LocalDateTime.parse("2024-09-24T15:30"))
+                .description("Large Maine Coon cat with long fur. Very friendly and may approach if called.")
+                .title("Missing Maine Coon - Please Contact If Seen")
+                .pet(pet3)
+                .build();
+
+            posterRepository.save(poster3);
+
+
+            Pet pet4 = Pet.builder()
+                .name("Buddy")
+                .colour("Golden")
+                .age(4)
+                .isFound(false)
+                .longitude(-3.1883)
+                .latitude(55.9533)
+                .imageURL("https://example.com/buddy.jpg")
+                .lostDate(LocalDateTime.parse("2024-07-26T18:30"))
+                .build();
+
+            Owner owner4 = Owner.builder()
+                .name("John Smith")
+                .contactNumber("0131 496 0638")
+                .emailAddress("john.smith@yahoo.com")
+                .pet(pet4)
+                .build();
+
+            ownerRepository.save(owner4);
+
+            Poster poster4 = Poster.builder()
+                .datePosted(LocalDateTime.parse("2024-08-04T11:00"))
+                .description("Friendly golden retriever, responds to 'Buddy'. Last seen near Central Park.")
+                .title("Lost Golden Retriever - Reward Offered")
+                .pet(pet4)
+                .build();
+
+            posterRepository.save(poster4);
+
+
+            Pet pet5 = Pet.builder()
+                .name("Bella")
+                .colour("White")
+                .age(2)
+                .isFound(false)
+                .longitude(-1.8904)
+                .latitude(52.4862)
+                .imageURL("https://example.com/bella.jpg")
+                .lostDate(LocalDateTime.parse("2024-09-03T16:00"))
+                .build();
+
+            Owner owner5 = Owner.builder()
+                .name("Sophie Martin")
+                .contactNumber("01632 960983")
+                .emailAddress("sophie.m@yahoo.com")
+                .pet(pet5)
+                .build();
+
+            ownerRepository.save(owner5);
+
+            Poster poster5 = Poster.builder()
+                .datePosted(LocalDateTime.parse("2024-09-09T18:20"))
+                .description("Small white poodle, recently groomed. Wearing a pink bow.")
+                .title("Missing Poodle - Please Call If Seen")
+                .pet(pet5)
+                .build();
+
+            posterRepository.save(poster5);
         };
     }
 
-    private void createPoster(String name, String colour, int age, boolean isFound,
-        double longitude, double latitude, String imageURL,
-        String ownerName, String ownerContact, String ownerEmail, String petDescription) {
-        transactionTemplate.execute(status -> {
-            Pet pet = Pet.builder()
-                .name(name)
-                .colour(colour)
-                .age(age)
-                .isFound(isFound)
-                .longitude(longitude)
-                .latitude(latitude)
-                .imageURL(imageURL)
-                .lostDate(LocalDateTime.now().minusDays((long) (Math.random() * 30)))
-                .build();
-
-            entityManager.persist(pet);
-
-            Owner owner = Owner.builder()
-                .name(ownerName)
-                .contactNumber(ownerContact)
-                .emailAddress(ownerEmail)
-                .pet(pet)
-                .build();
-
-            entityManager.persist(owner);
-
-            Poster poster = Poster.builder()
-                .datePosted(LocalDateTime.now())
-                .description(petDescription)
-                .title("Help find " + pet.getName())
-                .pet(pet)
-                .build();
-
-            entityManager.persist(poster);
-
-            pet.setOwner(owner);
-            pet.setPoster(poster);
-
-            entityManager.merge(pet);
-            return null;
-        });
-    }
 }
