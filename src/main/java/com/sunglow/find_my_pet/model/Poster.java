@@ -1,5 +1,6 @@
 package com.sunglow.find_my_pet.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public class Poster {
     @Column(updatable = false, nullable = false)
     private Long id;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime datePosted;
 
     private String description;
