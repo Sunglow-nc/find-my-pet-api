@@ -40,16 +40,16 @@ public class InitialiseDB {
                     .emailAddress("sarah.t@gmail.com")
                     .pet(pet1)
                     .build();
-
+          
             ownerRepository.save(owner1);
-
+          
             Poster poster1 = Poster.builder()
                     .datePosted(LocalDateTime.parse("2024-09-26T10:15"))
                     .description("Gray tabby cat with green eyes. Wearing a blue collar with a bell.")
                     .title("Missing Tabby Cat - Please Help")
                     .pet(pet1)
                     .build();
-
+          
             posterRepository.save(poster1);
 
 
@@ -63,7 +63,6 @@ public class InitialiseDB {
                 .imageURL("https://example.com/mochi.jpg")
                 .lostDate(LocalDateTime.parse("2024-08-27T08:30"))
                 .build();
-
 
             Owner owner2 = Owner.builder()
                 .name("Kevin Lee")
@@ -95,7 +94,6 @@ public class InitialiseDB {
                 .lostDate(LocalDateTime.parse("2024-09-23T11:00"))
                 .build();
 
-
             Owner owner3 = Owner.builder()
                 .name("Emma Wilson")
                 .contactNumber("07700 900123")
@@ -126,7 +124,6 @@ public class InitialiseDB {
                 .lostDate(LocalDateTime.parse("2024-07-26T18:30"))
                 .build();
 
-
             Owner owner4 = Owner.builder()
                 .name("John Smith")
                 .contactNumber("0131 496 0638")
@@ -156,7 +153,6 @@ public class InitialiseDB {
                 .imageURL("https://example.com/bella.jpg")
                 .lostDate(LocalDateTime.parse("2024-09-03T16:00"))
                 .build();
-
 
             Owner owner5 = Owner.builder()
                 .name("Sophie Martin")
