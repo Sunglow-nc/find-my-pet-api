@@ -1,6 +1,7 @@
 package com.sunglow.find_my_pet.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sunglow.find_my_pet.model.Owner;
 import com.sunglow.find_my_pet.model.Pet;
 import com.sunglow.find_my_pet.model.Poster;
@@ -44,6 +45,7 @@ class PosterControllerTest {
     public void setup() {
         mockMvcController = MockMvcBuilders.standaloneSetup(posterController).build();
         mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
     }
 
     //Testing getAllPosters
@@ -165,6 +167,8 @@ class PosterControllerTest {
         posters.add(poster1);
         posters.add(poster2);
         posters.add(poster3);
+
+        System.out.println(mapper.writeValueAsString(posters));
 
         when(mockPosterServiceImpl.getAllPosters()).thenReturn(posters);
 

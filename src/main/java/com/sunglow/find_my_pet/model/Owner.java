@@ -1,5 +1,6 @@
 package com.sunglow.find_my_pet.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,9 +29,9 @@ public class Owner {
     @Column
     String emailAddress;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
-    @JsonManagedReference
+    @JsonBackReference
     private Pet pet;
 
 }
