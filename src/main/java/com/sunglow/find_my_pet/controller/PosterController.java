@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -38,8 +39,22 @@ public class PosterController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("posters", "/api/v1/posters" + poster1.getId().toString());
 
-        return new ResponseEntity<>(poster1, httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(poster1, httpHeaders, HttpStatus.CREATED);
 
+    }
+
+    @PutMapping("/posters/{id}")
+    public ResponseEntity<Poster> updatePosterById(@PathVariable Long id, @RequestBody Poster poster) {
+        Optional<Poster> updatePoster = posterService.updatePoster(poster);
+
+        if (updatePoster.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("posters", "/api/v1/posters" + updatePoster.get().getId().toString());
+
+        return new ResponseEntity<>(updatePoster.get(), httpHeaders, HttpStatus.OK);
     }
 
 }
