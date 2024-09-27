@@ -1,7 +1,7 @@
 package com.sunglow.find_my_pet.service;
 
 import com.sunglow.find_my_pet.model.Poster;
-import com.sunglow.find_my_pet.repository.PosterManagerRespository;
+import com.sunglow.find_my_pet.repository.PosterManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class PosterServiceImpl implements PosterService {
 
     @Autowired
-    PosterManagerRespository posterManagerRespository;
+    PosterManagerRepository posterManagerRespository;
 
     @Override
     public List<Poster> getAllPosters() {
