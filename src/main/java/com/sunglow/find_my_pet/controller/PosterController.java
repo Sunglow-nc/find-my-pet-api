@@ -26,11 +26,7 @@ public class PosterController {
 
     @GetMapping("/posters/{id}")
     public ResponseEntity<Poster> getPosterById(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<Poster>(posterService.getPosterById(id), HttpStatus.FOUND);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<Poster>(posterService.getPosterById(id), HttpStatus.FOUND);
     }
 
 }

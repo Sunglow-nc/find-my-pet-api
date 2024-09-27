@@ -1,5 +1,6 @@
 package com.sunglow.find_my_pet.service;
 
+import com.sunglow.find_my_pet.exception.ItemNotFoundException;
 import com.sunglow.find_my_pet.model.Poster;
 import com.sunglow.find_my_pet.repository.PosterManagerRespository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,6 @@ public class PosterServiceImpl implements PosterService {
 
     public Poster getPosterById(Long id) {
         return posterManagerRespository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Poster not found for ID: " + id));
+                .orElseThrow(() -> new ItemNotFoundException("Poster not found for ID: " + id));
     }
 }
