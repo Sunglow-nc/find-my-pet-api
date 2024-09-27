@@ -1,5 +1,6 @@
 package com.sunglow.find_my_pet.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,5 +49,6 @@ public class Pet {
     private Poster poster;
 
     @OneToOne(mappedBy = "pet", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Owner owner;
 }

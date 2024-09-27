@@ -1,5 +1,6 @@
 package com.sunglow.find_my_pet.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,7 @@ public class Owner {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Pet pet;
 
 }
