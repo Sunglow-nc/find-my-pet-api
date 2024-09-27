@@ -27,7 +27,7 @@ public class Poster {
 
     private String title;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
     private Pet pet;
 
