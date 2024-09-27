@@ -38,6 +38,4 @@ public class PosterController {
 
     }
 
-    @PutMapping("posters/{id}")
-
 }
