@@ -39,12 +39,12 @@ public class PosterController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("posters", "/api/v1/posters" + poster1.getId().toString());
 
-        return new ResponseEntity<>(poster1, httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(poster1, httpHeaders, HttpStatus.CREATED);
 
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Poster> updatePoster(@PathVariable Long id, @RequestBody Poster poster) {
+    @PutMapping("/posters/{id}")
+    public ResponseEntity<Poster> updatePosterById(@PathVariable Long id, @RequestBody Poster poster) {
         Optional<Poster> updatePoster = posterService.updatePoster(poster);
 
         if (updatePoster.isEmpty()) {
