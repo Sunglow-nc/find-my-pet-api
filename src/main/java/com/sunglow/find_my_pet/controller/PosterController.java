@@ -45,7 +45,7 @@ public class PosterController {
 
     @PutMapping("/posters/{id}")
     public ResponseEntity<Poster> updatePosterById(@PathVariable Long id, @RequestBody Poster poster) {
-        Optional<Poster> updatePoster = posterService.updatePoster(poster);
+        Optional<Poster> updatePoster = posterService.updatePoster(id, poster);
 
         if (updatePoster.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
