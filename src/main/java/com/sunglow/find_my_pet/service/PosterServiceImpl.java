@@ -73,17 +73,52 @@ public class PosterServiceImpl implements PosterService {
     }
 
     @Override
+    @Transactional
     public Optional<Poster> updatePoster(Long id, Poster poster) {
-        Optional<Poster> updatePosterById = posterManagerRepository.findById(id);
+        return posterManagerRepository.findById(id)
+            .map(existingPoster -> {
+                // Update poster properties
+                existingPoster.setDatePosted(poster.getDatePosted());
+                existingPoster.setDescription(poster.getDescription());
+                existingPoster.setTitle(poster.getTitle());
 
-        if (updatePosterById.isPresent()) {
-            updatePosterById.get().setDatePosted(poster.getDatePosted());
-            updatePosterById.get().setDescription(poster.getDescription());
-            updatePosterById.get().setTitle(poster.getTitle());
-            updatePosterById.get().setPet(poster.getPet());
-            posterManagerRepository.save(poster);
-        }
+                // Update pet properties
+                if (poster.getPet() != null) {
+                    Pet existingPet = existingPoster.getPet();
+                    if (existingPet == null) {
+                        existingPet = new Pet();
+                        existingPoster.setPet(existingPet);
+                    }
 
-        return updatePosterById;
+                    existingPet.setName(poster.getPet().getName());
+                    existingPet.setColour(poster.getPet().getColour());
+                    existingPet.setAge(poster.getPet().getAge());
+                    existingPet.setIsFound(poster.getPet().getIsFound());
+                    existingPet.setLongitude(poster.getPet().getLongitude());
+                    existingPet.setLatitude(poster.getPet().getLatitude());
+                    existingPet.setImageURL(poster.getPet().getImageURL());
+                    existingPet.setLostDate(poster.getPet().getLostDate());
+
+                    // Update owner properties
+                    if (poster.getPet().getOwner() != null) {
+                        Owner existingOwner = existingPet.getOwner();
+                        if (existingOwner == null) {
+                            existingOwner = new Owner();
+                            existingPet.setOwner(existingOwner);
+                        }
+
+                        existingOwner.setName(poster.getPet().getOwner().getName());
+                        existingOwner.setContactNumber(
+                            poster.getPet().getOwner().getContactNumber());
+                        existingOwner.setEmailAddress(poster.getPet().getOwner().getEmailAddress());
+
+                        ownerManagerRepository.save(existingOwner);
+                    }
+
+                    petManagerRepository.save(existingPet);
+                }
+
+                return posterManagerRepository.save(existingPoster);
+            });
     }
 }
