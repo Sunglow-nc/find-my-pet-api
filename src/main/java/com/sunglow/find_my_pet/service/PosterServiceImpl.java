@@ -25,7 +25,7 @@ public class PosterServiceImpl implements PosterService {
 
     public Poster getPosterById(Long id) {
         return posterManagerRepository.findById(id)
-                .orElseThrow(() -> new ItemNotFoundException("Poster not found for ID: " + id));
+            .orElseThrow(() -> new ItemNotFoundException("Poster not found for ID: " + id));
     }
 
     @Override
@@ -35,16 +35,16 @@ public class PosterServiceImpl implements PosterService {
 
     @Override
     public Optional<Poster> updatePoster(Long id, Poster poster) {
-        Optional<Poster> updateAlbumById = posterManagerRepository.findById(id);
+        Optional<Poster> updatePosterById = posterManagerRepository.findById(id);
 
-        if (updateAlbumById.isPresent()) {
-            updateAlbumById.get().setDatePosted(poster.getDatePosted());
-            updateAlbumById.get().setDescription(poster.getDescription());
-            updateAlbumById.get().setTitle(poster.getTitle());
-            updateAlbumById.get().setPet(poster.getPet());
+        if (updatePosterById.isPresent()) {
+            updatePosterById.get().setDatePosted(poster.getDatePosted());
+            updatePosterById.get().setDescription(poster.getDescription());
+            updatePosterById.get().setTitle(poster.getTitle());
+            updatePosterById.get().setPet(poster.getPet());
             posterManagerRepository.save(poster);
         }
 
-        return updateAlbumById;
+        return updatePosterById;
     }
 }
