@@ -1,6 +1,7 @@
 package com.sunglow.find_my_pet.exception;
 
-public class ItemNotFoundException extends RuntimeException{
+public class ItemNotFoundException extends RuntimeException {
+
     public ItemNotFoundException() {
     }
 
