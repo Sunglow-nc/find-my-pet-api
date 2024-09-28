@@ -27,7 +27,7 @@ public class Poster {
 
     private String title;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
     private Pet pet;
 
