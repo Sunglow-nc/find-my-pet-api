@@ -28,12 +28,15 @@ public class PosterServiceImpl implements PosterService {
     private OwnerManagerRepository ownerManagerRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Poster> getAllPosters() {
         ArrayList<Poster> posters = new ArrayList<>();
         posterManagerRepository.findAll().forEach(posters::add);
         return posters;
     }
 
+    @Override
+    @Transactional(readOnly = true)
     public Poster getPosterById(Long id) {
         return posterManagerRepository.findById(id)
             .orElseThrow(() -> new ItemNotFoundException("Poster not found for ID: " + id));
