@@ -4,7 +4,7 @@ import com.sunglow.find_my_pet.model.Owner;
 import com.sunglow.find_my_pet.model.Pet;
 import com.sunglow.find_my_pet.model.Poster;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class PosterBuilderUtil {
             .latitude(53.456789)
                 .type("Dog")
             .imageURL("https://example.com/buddy.jpg")
-            .lostDate(LocalDateTime.of(2024, 3, 15, 14, 30))
+            .lostDate(LocalDate.parse("2024-03-15"))
             .build();
 
         Owner owner1 = Owner.builder()
@@ -39,7 +39,7 @@ public class PosterBuilderUtil {
 
         Poster poster1 = Poster.builder()
             .id(1L)
-            .datePosted(LocalDateTime.of(2024, 4, 6, 10, 30))
+            .datePosted(LocalDate.parse("2024-04-06"))
             .description("Golden retriever, very friendly, lost near the park.")
             .title("Missing Dog: Buddy")
             .pet(pet1)
@@ -56,7 +56,7 @@ public class PosterBuilderUtil {
             .latitude(52.123456)
                 .type("Cat")
             .imageURL("https://example.com/luna.jpg")
-            .lostDate(LocalDateTime.of(2023, 12, 25, 12, 00))
+            .lostDate(LocalDate.parse("2023-12-25"))
             .build();
 
         Owner owner2 = Owner.builder()
@@ -71,7 +71,7 @@ public class PosterBuilderUtil {
 
         Poster poster2 = Poster.builder()
             .id(2L)
-            .datePosted(LocalDateTime.of(2024, 1, 1, 8, 45))
+            .datePosted(LocalDate.parse("2024-01-01"))
             .description("Black cat with a white spot on the chest, lost on New Year's Eve.")
             .title("Lost Cat: Luna")
             .pet(pet2)
@@ -88,7 +88,7 @@ public class PosterBuilderUtil {
             .latitude(54.123456)
                 .type("Dog")
             .imageURL("https://example.com/max.jpg")
-            .lostDate(LocalDateTime.of(2024, 5, 1, 9, 00))
+            .lostDate(LocalDate.parse("2024-05-01"))
             .build();
 
         Owner owner3 = Owner.builder()
@@ -103,7 +103,7 @@ public class PosterBuilderUtil {
 
         Poster poster3 = Poster.builder()
             .id(3L)
-            .datePosted(LocalDateTime.of(2024, 5, 2, 15, 00))
+            .datePosted(LocalDate.parse("2024-05-02"))
             .description("Found a brown and white dog near the riverbank. Very playful and healthy.")
             .title("Found Dog: Max")
             .pet(pet3)

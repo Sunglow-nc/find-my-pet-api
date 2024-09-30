@@ -12,7 +12,6 @@ import com.sunglow.find_my_pet.model.Poster;
 import com.sunglow.find_my_pet.service.PosterServiceImpl;
 import com.sunglow.find_my_pet.util.PosterBuilderUtil;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,8 +48,8 @@ class PosterControllerTest {
     @BeforeEach
     public void setup() {
         mockMvcController = MockMvcBuilders.standaloneSetup(posterController)
-                .setControllerAdvice(new GlobalExceptionHandler())
-                .build();
+            .setControllerAdvice(new GlobalExceptionHandler())
+            .build();
         mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
@@ -65,11 +64,11 @@ class PosterControllerTest {
         when(mockPosterServiceImpl.getAllPosters()).thenReturn(emptyPosters);
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/posters"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").doesNotExist())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").doesNotExist())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].datePosted").doesNotExist());
+                MockMvcRequestBuilders.get("/api/v1/posters"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").doesNotExist())
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").doesNotExist())
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].datePosted").doesNotExist());
     }
 
     @Test
@@ -77,33 +76,33 @@ class PosterControllerTest {
         when(mockPosterServiceImpl.getAllPosters()).thenReturn(samplePosters);
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/posters"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Missing Dog: Buddy"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].datePosted").value("2024-04-06 10:30"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description")
-                        .value("Golden retriever, very friendly, lost near the park."))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].pet.colour").value("Golden"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].pet.owner.emailAddress")
-                        .value("john.doe@example.com"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].pet.isFound").value("true"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].pet.latitude")
-                        .value(closeTo(52.123456, 0.000001)));
+                MockMvcRequestBuilders.get("/api/v1/posters"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Missing Dog: Buddy"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].datePosted").value("2024-04-06"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].description")
+                .value("Golden retriever, very friendly, lost near the park."))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].pet.colour").value("Golden"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].pet.owner.emailAddress")
+                .value("john.doe@example.com"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[2].pet.isFound").value("true"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[1].pet.latitude")
+                .value(closeTo(52.123456, 0.000001)));
     }
 
     // Testing getPostersById
     @Test
     void testGetPosterByIdWhenEmpty() throws Exception {
         when(mockPosterServiceImpl.getPosterById(1L)).thenThrow(
-                new ItemNotFoundException("Poster not found for ID :" + 1L));
+            new ItemNotFoundException("Poster not found for ID :" + 1L));
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/posters/1"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").doesNotExist())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").doesNotExist())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].datePosted").doesNotExist());
+                MockMvcRequestBuilders.get("/api/v1/posters/1"))
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").doesNotExist())
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").doesNotExist())
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].datePosted").doesNotExist());
     }
 
     @Test
@@ -111,19 +110,19 @@ class PosterControllerTest {
         when(mockPosterServiceImpl.getPosterById(3L)).thenReturn(samplePosters.get(2));
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/posters/3"))
-                .andExpect(MockMvcResultMatchers.status().isFound())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(3))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Found Dog: Max"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.datePosted").value("2024-05-02 15:00"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description")
-                        .value("Found a brown and white dog near the riverbank. Very playful and healthy."))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.colour").value("Brown and White"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.owner.emailAddress")
-                        .value("sam.wilson@example.com"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.isFound").value("true"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.longitude")
-                        .value(closeTo(-2.345678, 0.000001)));
+                MockMvcRequestBuilders.get("/api/v1/posters/3"))
+            .andExpect(MockMvcResultMatchers.status().isFound())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(3))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Found Dog: Max"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.datePosted").value("2024-05-02"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.description")
+                .value("Found a brown and white dog near the riverbank. Very playful and healthy."))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.pet.colour").value("Brown and White"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.pet.owner.emailAddress")
+                .value("sam.wilson@example.com"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.pet.isFound").value("true"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.pet.longitude")
+                .value(closeTo(-2.345678, 0.000001)));
     }
 
     @Test
@@ -134,17 +133,18 @@ class PosterControllerTest {
         when(mockPosterServiceImpl.insertPoster(any(newPoster.getClass()))).thenReturn(newPoster);
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.post("/api/v1/posters")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(mapper.writeValueAsString(newPoster)))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(newPoster.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(newPoster.getTitle()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.datePosted")
-                        .value(newPoster.getDatePosted().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(newPoster.getDescription()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.colour").value(newPoster.getPet().getColour()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.owner.emailAddress").value(newPoster.getPet().getOwner().getEmailAddress()));
+                MockMvcRequestBuilders.post("/api/v1/posters")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(newPoster)))
+            .andExpect(MockMvcResultMatchers.status().isCreated())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(newPoster.getId()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(newPoster.getTitle()))
+            .andExpect(
+                MockMvcResultMatchers.jsonPath("$.description").value(newPoster.getDescription()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.pet.colour")
+                .value(newPoster.getPet().getColour()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.pet.owner.emailAddress")
+                .value(newPoster.getPet().getOwner().getEmailAddress()));
 
     }
 
@@ -153,24 +153,27 @@ class PosterControllerTest {
         Poster firstPoster = samplePosters.getFirst();
 
         Poster updatedPoster = firstPoster.toBuilder()
-                .title("Updated Title for Second Poster")
-                .description("Updated description for the second poster.")
-                .build();
+            .title("Updated Title for Second Poster")
+            .description("Updated description for the second poster.")
+            .build();
 
-        when(mockPosterServiceImpl.updatePoster(anyLong(), any(firstPoster.getClass()))).thenReturn(Optional.ofNullable(updatedPoster));
+        when(mockPosterServiceImpl.updatePoster(anyLong(), any(firstPoster.getClass()))).thenReturn(
+            Optional.ofNullable(updatedPoster));
 
         assert updatedPoster != null;
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.put("/api/v1/posters/" + firstPoster.getId())
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(mapper.writeValueAsString(updatedPoster)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(updatedPoster.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(updatedPoster.getTitle()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.datePosted").value(updatedPoster.getDatePosted().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(updatedPoster.getDescription()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.colour").value(updatedPoster.getPet().getColour()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.owner.emailAddress").value(updatedPoster.getPet().getOwner().getEmailAddress()));
+                MockMvcRequestBuilders.put("/api/v1/posters/" + firstPoster.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(updatedPoster)))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(updatedPoster.getId()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(updatedPoster.getTitle()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.description")
+                .value(updatedPoster.getDescription()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.pet.colour")
+                .value(updatedPoster.getPet().getColour()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.pet.owner.emailAddress")
+                .value(updatedPoster.getPet().getOwner().getEmailAddress()));
 
     }
 
@@ -181,10 +184,10 @@ class PosterControllerTest {
 
         this.mockMvcController.perform(
                 MockMvcRequestBuilders.put("/api/v1/posters/" + 999L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(new Poster())))
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andReturn();
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(new Poster())))
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
+            .andReturn();
     }
 
 
