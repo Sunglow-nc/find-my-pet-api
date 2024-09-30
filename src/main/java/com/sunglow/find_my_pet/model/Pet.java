@@ -46,6 +46,9 @@ public class Pet {
     @Column
     private LocalDateTime lostDate;
 
+    @Column
+    private String type;
+
     @OneToOne(mappedBy = "pet", fetch = FetchType.EAGER)
     @JsonBackReference
     private Poster poster;

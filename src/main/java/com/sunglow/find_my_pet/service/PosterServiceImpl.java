@@ -29,6 +29,7 @@ public class PosterServiceImpl implements PosterService {
     private OwnerManagerRepository ownerManagerRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Poster> getAllPosters() {
         ArrayList<Poster> posters = new ArrayList<>();
         posterManagerRepository.findAll().forEach(posters::add);
@@ -36,6 +37,7 @@ public class PosterServiceImpl implements PosterService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Poster getPosterById(Long id) {
         return posterManagerRepository.findById(id)
             .orElseThrow(() -> new ItemNotFoundException("Poster not found for ID: " + id));
@@ -95,6 +97,7 @@ public class PosterServiceImpl implements PosterService {
                     existingPet.setName(poster.getPet().getName());
                     existingPet.setColour(poster.getPet().getColour());
                     existingPet.setAge(poster.getPet().getAge());
+                    existingPet.setType(poster.getPet().getType());
                     existingPet.setIsFound(poster.getPet().getIsFound());
                     existingPet.setLongitude(poster.getPet().getLongitude());
                     existingPet.setLatitude(poster.getPet().getLatitude());
