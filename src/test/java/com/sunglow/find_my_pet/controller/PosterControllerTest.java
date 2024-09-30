@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -173,7 +174,7 @@ class PosterControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.pet.owner.emailAddress").value(updatedPoster.getPet().getOwner().getEmailAddress()));
 
     }
-
+  
     @Test
     void testCannotUpdatePoster_notFound() throws Exception {
 
@@ -187,5 +188,31 @@ class PosterControllerTest {
                 .andReturn();
     }
 
+    @Test
+    void testDeletePosterByIdWhenEmpty() throws Exception {
+        doThrow(new ItemNotFoundException("The poster with the specified ID does not exist."))
+                .when(mockPosterServiceImpl).deletePosterById(999L);
 
+        this.mockMvcController.perform(MockMvcRequestBuilders.delete("/api/v1/posters/999"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().string("The poster with the specified ID does not exist."));
+    }
+
+    @Test
+    void testDeletePosterById() throws Exception {
+        doNothing().when(mockPosterServiceImpl).deletePosterById(3L);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.delete("/api/v1/posters/3"))
+                .andExpect(MockMvcResultMatchers.status().isNoContent())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.datePosted").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.colour").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.owner.emailAddress").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.isFound").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.longitude").doesNotExist());
+    }
+  
 }

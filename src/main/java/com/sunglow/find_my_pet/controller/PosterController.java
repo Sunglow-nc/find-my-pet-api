@@ -61,4 +61,10 @@ public class PosterController {
         return new ResponseEntity<>(updatePoster.get(), httpHeaders, HttpStatus.OK);
     }
 
+    @DeleteMapping("/posters/{id}")
+    public ResponseEntity<Void> deletePosterById(@PathVariable Long id) {
+        posterService.deletePosterById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
