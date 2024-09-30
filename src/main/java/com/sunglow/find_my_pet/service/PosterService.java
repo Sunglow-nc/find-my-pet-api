@@ -16,4 +16,6 @@ public interface PosterService {
     Optional<Poster> updatePoster(Long id, Poster poster);
 
     void deletePosterById(Long id);
+
+    Poster getPosterByPetColour(String colour);
 }
