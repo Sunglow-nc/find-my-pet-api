@@ -68,8 +68,15 @@ public class PosterController {
     }
 
     @GetMapping("/posters/colour/{colour}")
-    ResponseEntity<Poster> getPosterByPetColour(@PathVariable String colour) {
-        return new ResponseEntity<Poster>(posterService.getPosterByPetColour(colour), HttpStatus.OK);
+    public ResponseEntity<List<Poster>> getPostersByPetColour(@PathVariable String colour){
+        List<Poster> posters = posterService.getPostersByPetColour(colour);
+        return new ResponseEntity<>(posters, HttpStatus.OK);
+    }
+
+    @GetMapping("/posters/by-type")
+    public ResponseEntity<List<Poster>> getPostersByPetType(@RequestParam String type){
+        List<Poster> posters = posterService.getPostersByPetType(type);
+        return new ResponseEntity<>(posters, HttpStatus.OK);
     }
 
 }

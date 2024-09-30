@@ -1,5 +1,6 @@
 package com.sunglow.find_my_pet.service;
 
+import com.sunglow.find_my_pet.model.Pet;
 import com.sunglow.find_my_pet.model.Poster;
 
 import java.util.List;
@@ -17,5 +18,9 @@ public interface PosterService {
 
     void deletePosterById(Long id);
 
-    Poster getPosterByPetColour(String colour);
+    List<Poster> getPostersByPet(Pet pet);
+
+    List<Poster> getPostersByPetColour(String colour);
+
+    List<Poster> getPostersByPetType(String type);
 }
