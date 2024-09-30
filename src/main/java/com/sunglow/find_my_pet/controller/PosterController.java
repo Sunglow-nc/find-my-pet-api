@@ -24,7 +24,7 @@ public class PosterController {
         return new ResponseEntity<List<Poster>>(posterService.getAllPosters(), HttpStatus.OK);
     }
 
-    @GetMapping("/posters/{id}")
+    @GetMapping("/posters/id/{id}")
     public ResponseEntity<Poster> getPosterById(@PathVariable Long id) {
         return new ResponseEntity<Poster>(posterService.getPosterById(id), HttpStatus.FOUND);
     }
@@ -67,7 +67,7 @@ public class PosterController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/posters/{colour}")
+    @GetMapping("/posters/colour/{colour}")
     ResponseEntity<Poster> getPosterByPetColour(@PathVariable String colour) {
         return new ResponseEntity<Poster>(posterService.getPosterByPetColour(colour), HttpStatus.FOUND);
     }
