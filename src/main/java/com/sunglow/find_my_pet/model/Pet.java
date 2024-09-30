@@ -1,15 +1,14 @@
 package com.sunglow.find_my_pet.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
 
 @Entity
 @Data
@@ -43,8 +42,8 @@ public class Pet {
     @Column
     private String imageURL;
 
-    @Column
-    private LocalDateTime lostDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate lostDate;
 
     @Column
     private String type;

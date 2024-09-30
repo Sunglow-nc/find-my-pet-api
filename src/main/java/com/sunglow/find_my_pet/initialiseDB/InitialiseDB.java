@@ -7,11 +7,10 @@ import com.sunglow.find_my_pet.model.Poster;
 import com.sunglow.find_my_pet.repository.OwnerManagerRepository;
 import com.sunglow.find_my_pet.repository.PetManagerRepository;
 import com.sunglow.find_my_pet.repository.PosterManagerRepository;
+import java.time.LocalDate;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.time.LocalDateTime;
 
 @Configuration
 public class InitialiseDB {
@@ -36,7 +35,7 @@ public class InitialiseDB {
                     .latitude(51.5074)
                     .type("Dog")
                     .imageURL("https://example.com/whiskers.jpg")
-                    .lostDate(LocalDateTime.parse("2024-09-02T22:00"))
+                    .lostDate(LocalDate.parse("2024-09-02"))
                     .build();
 
                 Owner owner1 = Owner.builder()
@@ -49,7 +48,7 @@ public class InitialiseDB {
                 ownerRepository.save(owner1);
 
                 Poster poster1 = Poster.builder()
-                    .datePosted(LocalDateTime.parse("2024-09-26T10:15"))
+                    .datePosted(LocalDate.parse("2024-09-26"))
                     .description(
                         "Gray tabby cat with green eyes. Wearing a blue collar with a bell.")
                     .title("Missing Tabby Cat - Please Help")
@@ -67,7 +66,7 @@ public class InitialiseDB {
                     .latitude(53.4808)
                     .type("Cat")
                     .imageURL("https://example.com/mochi.jpg")
-                    .lostDate(LocalDateTime.parse("2024-08-27T08:30"))
+                    .lostDate(LocalDate.parse("2024-08-27"))
                     .build();
 
                 Owner owner2 = Owner.builder()
@@ -80,7 +79,7 @@ public class InitialiseDB {
                 ownerRepository.save(owner2);
 
                 Poster poster2 = Poster.builder()
-                    .datePosted(LocalDateTime.parse("2024-09-27T13:45"))
+                    .datePosted(LocalDate.parse("2024-09-27"))
                     .description("Siamese cat with blue eyes. Very vocal and responds to 'Mochi'.")
                     .title("Lost Siamese Cat - Reward Offered")
                     .pet(pet2)
@@ -97,7 +96,7 @@ public class InitialiseDB {
                     .latitude(52.5615)
                     .type("Mouse")
                     .imageURL("https://example.com/fluffy.jpg")
-                    .lostDate(LocalDateTime.parse("2024-09-23T11:00"))
+                    .lostDate(LocalDate.parse("2024-09-23"))
                     .build();
 
                 Owner owner3 = Owner.builder()
@@ -110,7 +109,7 @@ public class InitialiseDB {
                 ownerRepository.save(owner3);
 
                 Poster poster3 = Poster.builder()
-                    .datePosted(LocalDateTime.parse("2024-09-24T15:30"))
+                    .datePosted(LocalDate.parse("2024-09-24"))
                     .description(
                         "Large Maine Coon cat with long fur. Very friendly and may approach if called.")
                     .title("Missing Maine Coon - Please Contact If Seen")
@@ -128,7 +127,7 @@ public class InitialiseDB {
                     .latitude(55.9533)
                     .type("Dog")
                     .imageURL("https://example.com/buddy.jpg")
-                    .lostDate(LocalDateTime.parse("2024-07-26T18:30"))
+                    .lostDate(LocalDate.parse("2024-07-26"))
                     .build();
 
                 Owner owner4 = Owner.builder()
@@ -141,7 +140,7 @@ public class InitialiseDB {
                 ownerRepository.save(owner4);
 
                 Poster poster4 = Poster.builder()
-                    .datePosted(LocalDateTime.parse("2024-08-04T11:00"))
+                    .datePosted(LocalDate.parse("2024-08-04"))
                     .description(
                         "Friendly golden retriever, responds to 'Buddy'. Last seen near Central Park.")
                     .title("Lost Golden Retriever - Reward Offered")
@@ -159,7 +158,7 @@ public class InitialiseDB {
                     .latitude(52.4862)
                     .type("Bird")
                     .imageURL("https://example.com/bella.jpg")
-                    .lostDate(LocalDateTime.parse("2024-09-03T16:00"))
+                    .lostDate(LocalDate.parse("2024-09-03"))
                     .build();
 
                 Owner owner5 = Owner.builder()
@@ -172,7 +171,7 @@ public class InitialiseDB {
                 ownerRepository.save(owner5);
 
                 Poster poster5 = Poster.builder()
-                    .datePosted(LocalDateTime.parse("2024-09-09T18:20"))
+                    .datePosted(LocalDate.parse("2024-09-09"))
                     .description("Small white poodle, recently groomed. Wearing a pink bow.")
                     .title("Missing Poodle - Please Call If Seen")
                     .pet(pet5)
