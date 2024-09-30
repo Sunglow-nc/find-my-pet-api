@@ -28,6 +28,9 @@ public class PosterServiceImpl implements PosterService {
     @Autowired
     private OwnerManagerRepository ownerManagerRepository;
 
+    @Autowired
+    private PetServiceImpl petServiceImpl;
+
     @Override
     @Transactional(readOnly = true)
     public List<Poster> getAllPosters() {
@@ -134,5 +137,34 @@ public class PosterServiceImpl implements PosterService {
         } catch (EmptyResultDataAccessException e) {
             throw new ItemNotFoundException("The poster with the specified ID does not exist.");
         }
+    }
+
+    @Override
+    public List<Poster> getPostersByPet(Pet pet) {
+        List<Poster> postersByPet = posterManagerRepository.findByPet(pet);
+        if(postersByPet.isEmpty()) throw new ItemNotFoundException(String.format("Cannot find posts for this pet"));
+        return postersByPet;
+    }
+
+    @Override
+    public List<Poster> getPostersByPetColour(String colour) {
+        List<Poster> postersByPetColour = new ArrayList<>();
+        List<Pet> petsByColour = petServiceImpl.getPetsByColour(colour);
+        for(Pet pet : petsByColour){
+            postersByPetColour.addAll(posterManagerRepository.findByPet(pet));
+        }
+        if(postersByPetColour.isEmpty()) throw new ItemNotFoundException(String.format("Cannot find posts for pets with the '%s' colour", colour));
+        return postersByPetColour;
+    }
+
+    @Override
+    public List<Poster> getPostersByPetType(String type) {
+        List<Poster> postersByPetType = new ArrayList<>();
+        List<Pet> petsByType = petServiceImpl.getPetsByType(type);
+        for(Pet pet : petsByType){
+            postersByPetType.addAll(posterManagerRepository.findByPet(pet));
+        }
+        if(postersByPetType.isEmpty()) throw new ItemNotFoundException(String.format("Cannot find posts for pets of the type '%s'", type));
+        return postersByPetType;
     }
 }
