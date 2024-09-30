@@ -9,6 +9,8 @@ import com.sunglow.find_my_pet.repository.PetManagerRepository;
 import com.sunglow.find_my_pet.repository.PosterManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -140,6 +142,7 @@ public class PosterServiceImpl implements PosterService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Poster> getPostersByPet(Pet pet) {
         List<Poster> postersByPet = posterManagerRepository.findByPet(pet);
         if(postersByPet.isEmpty()) throw new ItemNotFoundException(String.format("Cannot find posts for this pet"));
@@ -147,6 +150,7 @@ public class PosterServiceImpl implements PosterService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Poster> getPostersByPetColour(String colour) {
         List<Poster> postersByPetColour = new ArrayList<>();
         List<Pet> petsByColour = petServiceImpl.getPetsByColour(colour);
@@ -158,6 +162,7 @@ public class PosterServiceImpl implements PosterService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Poster> getPostersByPetType(String type) {
         List<Poster> postersByPetType = new ArrayList<>();
         List<Pet> petsByType = petServiceImpl.getPetsByType(type);
@@ -167,4 +172,5 @@ public class PosterServiceImpl implements PosterService {
         if(postersByPetType.isEmpty()) throw new ItemNotFoundException(String.format("Cannot find posts for pets of the type '%s'", type));
         return postersByPetType;
     }
+  
 }
