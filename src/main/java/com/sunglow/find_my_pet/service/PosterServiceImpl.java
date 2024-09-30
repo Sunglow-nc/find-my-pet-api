@@ -8,6 +8,7 @@ import com.sunglow.find_my_pet.repository.OwnerManagerRepository;
 import com.sunglow.find_my_pet.repository.PetManagerRepository;
 import com.sunglow.find_my_pet.repository.PosterManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class PosterServiceImpl implements PosterService {
         return posters;
     }
 
+    @Override
     public Poster getPosterById(Long id) {
         return posterManagerRepository.findById(id)
             .orElseThrow(() -> new ItemNotFoundException("Poster not found for ID: " + id));
@@ -120,5 +122,14 @@ public class PosterServiceImpl implements PosterService {
 
                 return posterManagerRepository.save(existingPoster);
             });
+    }
+
+    @Override
+    public void deletePosterById(Long id) {
+        try {
+            posterManagerRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ItemNotFoundException("The poster with the specified ID does not exist.");
+        }
     }
 }

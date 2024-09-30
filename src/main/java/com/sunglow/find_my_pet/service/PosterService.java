@@ -14,4 +14,6 @@ public interface PosterService {
     Poster insertPoster(Poster poster);
 
     Optional<Poster> updatePoster(Long id, Poster poster);
+
+    void deletePosterById(Long id);
 }

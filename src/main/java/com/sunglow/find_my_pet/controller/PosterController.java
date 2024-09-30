@@ -62,7 +62,9 @@ public class PosterController {
     }
 
     @DeleteMapping("/posters/{id}")
-    public ResponseEntity<String> deletePosterById(@PathVariable Long id) {
-        return new ResponseEntity<>(posterService.deletePosterById(id), HttpStatus.GONE);
+    public ResponseEntity<Void> deletePosterById(@PathVariable Long id) {
+        posterService.deletePosterById(id);
+        return ResponseEntity.noContent().build();
     }
+
 }
