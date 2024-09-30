@@ -22,6 +22,7 @@ public class PosterBuilderUtil {
             .isFound(false)
             .longitude(-1.234567)
             .latitude(53.456789)
+                .type("Dog")
             .imageURL("https://example.com/buddy.jpg")
             .lostDate(LocalDateTime.of(2024, 3, 15, 14, 30))
             .build();
@@ -53,6 +54,7 @@ public class PosterBuilderUtil {
             .isFound(false)
             .longitude(-0.987654)
             .latitude(52.123456)
+                .type("Cat")
             .imageURL("https://example.com/luna.jpg")
             .lostDate(LocalDateTime.of(2023, 12, 25, 12, 00))
             .build();
@@ -84,6 +86,7 @@ public class PosterBuilderUtil {
             .isFound(true)
             .longitude(-2.345678)
             .latitude(54.123456)
+                .type("Dog")
             .imageURL("https://example.com/max.jpg")
             .lostDate(LocalDateTime.of(2024, 5, 1, 9, 00))
             .build();

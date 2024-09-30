@@ -93,6 +93,7 @@ public class PosterServiceImpl implements PosterService {
                     existingPet.setName(poster.getPet().getName());
                     existingPet.setColour(poster.getPet().getColour());
                     existingPet.setAge(poster.getPet().getAge());
+                    existingPet.setType(poster.getPet().getType());
                     existingPet.setIsFound(poster.getPet().getIsFound());
                     existingPet.setLongitude(poster.getPet().getLongitude());
                     existingPet.setLatitude(poster.getPet().getLatitude());

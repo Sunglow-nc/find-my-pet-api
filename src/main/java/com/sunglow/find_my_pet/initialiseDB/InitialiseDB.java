@@ -34,6 +34,7 @@ public class InitialiseDB {
                     .isFound(false)
                     .longitude(-0.1278)
                     .latitude(51.5074)
+                    .type("Dog")
                     .imageURL("https://example.com/whiskers.jpg")
                     .lostDate(LocalDateTime.parse("2024-09-02T22:00"))
                     .build();
@@ -64,6 +65,7 @@ public class InitialiseDB {
                     .isFound(false)
                     .longitude(-2.2426)
                     .latitude(53.4808)
+                    .type("Cat")
                     .imageURL("https://example.com/mochi.jpg")
                     .lostDate(LocalDateTime.parse("2024-08-27T08:30"))
                     .build();
@@ -93,6 +95,7 @@ public class InitialiseDB {
                     .isFound(false)
                     .longitude(-1.4746)
                     .latitude(52.5615)
+                    .type("Mouse")
                     .imageURL("https://example.com/fluffy.jpg")
                     .lostDate(LocalDateTime.parse("2024-09-23T11:00"))
                     .build();
@@ -123,6 +126,7 @@ public class InitialiseDB {
                     .isFound(false)
                     .longitude(-3.1883)
                     .latitude(55.9533)
+                    .type("Dog")
                     .imageURL("https://example.com/buddy.jpg")
                     .lostDate(LocalDateTime.parse("2024-07-26T18:30"))
                     .build();
@@ -153,6 +157,7 @@ public class InitialiseDB {
                     .isFound(false)
                     .longitude(-1.8904)
                     .latitude(52.4862)
+                    .type("Bird")
                     .imageURL("https://example.com/bella.jpg")
                     .lostDate(LocalDateTime.parse("2024-09-03T16:00"))
                     .build();
