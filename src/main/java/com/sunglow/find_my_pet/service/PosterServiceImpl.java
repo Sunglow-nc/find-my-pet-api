@@ -9,6 +9,8 @@ import com.sunglow.find_my_pet.repository.PetManagerRepository;
 import com.sunglow.find_my_pet.repository.PosterManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -135,4 +137,12 @@ public class PosterServiceImpl implements PosterService {
             throw new ItemNotFoundException("The poster with the specified ID does not exist.");
         }
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Poster getPosterByPetColour(String colour) {
+        return posterManagerRepository.findByPetColour(colour)
+                .orElseThrow(() -> new ItemNotFoundException("There is no poster with a pet of this colour."));
+    }
+
 }
