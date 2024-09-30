@@ -67,4 +67,16 @@ public class PosterController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/posters/by-colour")
+    public ResponseEntity<List<Poster>> getPostersByPetColour(@RequestParam String colour){
+        List<Poster> posters = posterService.getPostersByPetColour(colour);
+        return new ResponseEntity<>(posters, HttpStatus.OK);
+    }
+
+    @GetMapping("/posters/by-type")
+    public ResponseEntity<List<Poster>> getPostersByPetType(@RequestParam String type){
+        List<Poster> posters = posterService.getPostersByPetType(type);
+        return new ResponseEntity<>(posters, HttpStatus.OK);
+    }
+
 }
