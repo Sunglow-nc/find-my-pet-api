@@ -32,7 +32,7 @@ public class PosterController {
     @GetMapping("/posters/{id}")
     @Cacheable(key = "#id")
     public ResponseEntity<Poster> getPosterById(@PathVariable Long id) {
-        return new ResponseEntity<Poster>(posterService.getPosterById(id), HttpStatus.FOUND);
+        return new ResponseEntity<Poster>(posterService.getPosterById(id), HttpStatus.OK);
     }
 
     @PostMapping("/posters")
@@ -79,7 +79,7 @@ public class PosterController {
 
     @GetMapping("/posters/{colour}")
     ResponseEntity<Poster> getPosterByPetColour(@PathVariable String colour) {
-        return new ResponseEntity<Poster>(posterService.getPosterByPetColour(colour), HttpStatus.FOUND);
+        return new ResponseEntity<Poster>(posterService.getPosterByPetColour(colour), HttpStatus.OK);
     }
 
 }
