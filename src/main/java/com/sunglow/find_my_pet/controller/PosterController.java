@@ -4,6 +4,9 @@ import com.sunglow.find_my_pet.exception.ItemNotFoundException;
 import com.sunglow.find_my_pet.model.Poster;
 import com.sunglow.find_my_pet.service.PosterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CacheConfig(cacheNames = "postersCache")
 @RequestMapping("/api/v1")
 public class PosterController {
 
@@ -20,16 +24,19 @@ public class PosterController {
     PosterService posterService;
 
     @GetMapping("/posters")
+    @Cacheable
     public ResponseEntity<List<Poster>> getAllPosters() {
         return new ResponseEntity<List<Poster>>(posterService.getAllPosters(), HttpStatus.OK);
     }
 
     @GetMapping("/posters/{id}")
+    @Cacheable(key = "#id")
     public ResponseEntity<Poster> getPosterById(@PathVariable Long id) {
         return new ResponseEntity<Poster>(posterService.getPosterById(id), HttpStatus.FOUND);
     }
 
     @PostMapping("/posters")
+    @CacheEvict(value = "postersCache", allEntries = true)
     public ResponseEntity<?> postPoster(@RequestBody Poster poster) {
         try {
             Poster savedPoster = posterService.insertPoster(poster);
@@ -46,7 +53,9 @@ public class PosterController {
         }
     }
 
+
     @PutMapping("/posters/{id}")
+    @CacheEvict(value = "postersCache", key = "#id")
     public ResponseEntity<Poster> updatePosterById(@PathVariable Long id,
         @RequestBody Poster poster) {
         Optional<Poster> updatePoster = posterService.updatePoster(id, poster);
@@ -62,6 +71,7 @@ public class PosterController {
     }
 
     @DeleteMapping("/posters/{id}")
+    @CacheEvict(value = "postersCache", key = "#id")
     public ResponseEntity<Void> deletePosterById(@PathVariable Long id) {
         posterService.deletePosterById(id);
         return ResponseEntity.noContent().build();
