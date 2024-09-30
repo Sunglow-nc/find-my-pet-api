@@ -67,4 +67,9 @@ public class PosterController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/posters/{colour}")
+    ResponseEntity<Poster> getPosterByPetColour(@PathVariable String colour) {
+        return new ResponseEntity<Poster>(posterService.getPosterByPetColour(colour), HttpStatus.FOUND);
+    }
+
 }
