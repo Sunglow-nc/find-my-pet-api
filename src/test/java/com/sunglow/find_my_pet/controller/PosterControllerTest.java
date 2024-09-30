@@ -27,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -99,7 +100,7 @@ class PosterControllerTest {
             new ItemNotFoundException("Poster not found for ID :" + 1L));
 
         this.mockMvcController.perform(
-                MockMvcRequestBuilders.get("/api/v1/posters/1"))
+                MockMvcRequestBuilders.get("/api/v1/posters/id/1"))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").doesNotExist())
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").doesNotExist())
@@ -111,7 +112,7 @@ class PosterControllerTest {
         when(mockPosterServiceImpl.getPosterById(3L)).thenReturn(samplePosters.get(2));
 
         this.mockMvcController.perform(
-                MockMvcRequestBuilders.get("/api/v1/posters/3"))
+                MockMvcRequestBuilders.get("/api/v1/posters/id/3"))
             .andExpect(MockMvcResultMatchers.status().isFound())
             .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(3))
             .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Found Dog: Max"))
@@ -219,12 +220,23 @@ class PosterControllerTest {
     }
 
     @Test
+    void testGetPosterByPetColourWhenNonExistent() throws Exception {
+        doThrow(new ItemNotFoundException("There is no poster with a pet of this colour."))
+                .when(mockPosterServiceImpl).getPosterByPetColour("Forest green");
+
+        this.mockMvcController.perform(MockMvcRequestBuilders.get("/api/v1/posters/colour/Forest green"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().string("There is no poster with a pet of this colour."));
+    }
+
+    @Test
     void testGetPosterByPetColour() throws Exception {
         when(mockPosterServiceImpl.getPosterByPetColour("Brown and White")).thenReturn(samplePosters.get(2));
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/posters/Brown%20and%20White"))
+                        MockMvcRequestBuilders.get("/api/v1/posters/colour/Brown and White"))
                 .andExpect(MockMvcResultMatchers.status().isFound())
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(3))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Found Dog: Max"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.datePosted").value("2024-05-02"))
