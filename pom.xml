@@ -91,7 +91,6 @@
 			<groupId>com.github.ben-manes.caffeine</groupId>
 			<artifactId>caffeine</artifactId>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-http44 -->
 		<dependency>
 			<groupId>com.cloudinary</groupId>
@@ -112,6 +111,7 @@
 			<artifactId>java-dotenv</artifactId>
 			<version>5.2.2</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
