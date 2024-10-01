@@ -59,7 +59,7 @@ public class PosterController {
 
             return new ResponseEntity<>(savedPoster, httpHeaders, HttpStatus.CREATED);
         } catch (ItemNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(
                 "An error occurred while creating the poster: " + e.getMessage(),
