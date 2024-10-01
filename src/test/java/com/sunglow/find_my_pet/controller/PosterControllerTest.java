@@ -8,7 +8,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sunglow.find_my_pet.exception.GlobalExceptionHandler;
 import com.sunglow.find_my_pet.exception.ItemNotFoundException;
+import com.sunglow.find_my_pet.model.Pet;
 import com.sunglow.find_my_pet.model.Poster;
+import com.sunglow.find_my_pet.service.PetServiceImpl;
 import com.sunglow.find_my_pet.service.PosterServiceImpl;
 import com.sunglow.find_my_pet.util.PosterBuilderUtil;
 
@@ -112,7 +114,7 @@ class PosterControllerTest {
 
         this.mockMvcController.perform(
                 MockMvcRequestBuilders.get("/api/v1/posters/id/3"))
-            .andExpect(MockMvcResultMatchers.status().isFound())
+            .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(3))
             .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Found Dog: Max"))
             .andExpect(MockMvcResultMatchers.jsonPath("$.datePosted").value("2024-05-02"))
@@ -221,7 +223,7 @@ class PosterControllerTest {
     @Test
     void testGetPosterByPetColourWhenNonExistent() throws Exception {
         doThrow(new ItemNotFoundException("There is no poster with a pet of this colour."))
-                .when(mockPosterServiceImpl).getPosterByPetColour("Forest green");
+                .when(mockPosterServiceImpl).getPostersByPetColour("Forest green");
 
         this.mockMvcController.perform(MockMvcRequestBuilders.get("/api/v1/posters/colour/Forest green"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -230,22 +232,24 @@ class PosterControllerTest {
 
     @Test
     void testGetPosterByPetColour() throws Exception {
-        when(mockPosterServiceImpl.getPosterByPetColour("Brown and White")).thenReturn(samplePosters.get(2));
+        List<Poster> validPosters = List.of(samplePosters.get(2));
+
+        when(mockPosterServiceImpl.getPostersByPetColour("Brown and White")).thenReturn(validPosters);
 
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.get("/api/v1/posters/colour/Brown and White"))
-                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(3))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Found Dog: Max"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.datePosted").value("2024-05-02"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description")
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Found Dog: Max"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].datePosted").value("2024-05-02"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description")
                         .value("Found a brown and white dog near the riverbank. Very playful and healthy."))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.colour").value("Brown and White"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.owner.emailAddress")
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].pet.colour").value("Brown and White"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].pet.owner.emailAddress")
                         .value("sam.wilson@example.com"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.isFound").value("true"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pet.longitude")
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].pet.isFound").value("true"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].pet.longitude")
                         .value(closeTo(-2.345678, 0.000001)));
     }
   
