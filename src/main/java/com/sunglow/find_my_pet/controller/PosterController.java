@@ -2,6 +2,7 @@ package com.sunglow.find_my_pet.controller;
 
 import com.sunglow.find_my_pet.exception.ItemNotFoundException;
 import com.sunglow.find_my_pet.model.Poster;
+import com.sunglow.find_my_pet.service.ImageUploadService;
 import com.sunglow.find_my_pet.service.PosterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,7 +19,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,9 +34,13 @@ public class PosterController {
     @Autowired
     PosterService posterService;
 
+    @Autowired
+    ImageUploadService imageUploadService;
+
     @Operation(summary = "Get all posters", description = "Retrieve a list of all posters (cached)")
     @ApiResponse(responseCode = "200", description = "Successful retrieval of posters",
         content = @Content(schema = @Schema(implementation = Poster.class)))
+
     @GetMapping("/posters")
     @Cacheable
     public ResponseEntity<List<Poster>> getAllPosters() {
@@ -131,5 +138,18 @@ public class PosterController {
         @Parameter(description = "ID of the poster to delete") @PathVariable Long id) {
         posterService.deletePosterById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/posters/image")
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            String imageUrl = imageUploadService.uploadImage(file);
+            return ResponseEntity.ok(imageUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Image upload failed: " + e.getMessage());
+        }
     }
 }
