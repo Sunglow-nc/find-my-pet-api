@@ -22,9 +22,9 @@ public class ImageUploadService {
 
     public String uploadImage(MultipartFile file) throws IOException {
         Map<String, Object> params = ObjectUtils.asMap(
-                "use_filename", true,
-                "unique_filename", false,
-                "overwrite", true
+                "use_filename", false,
+                "unique_filename", true,
+                "overwrite", false
         );
 
         Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), params);

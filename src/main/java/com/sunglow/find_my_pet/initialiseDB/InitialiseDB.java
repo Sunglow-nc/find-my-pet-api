@@ -34,7 +34,7 @@ public class InitialiseDB {
                     .longitude(-0.1278)
                     .latitude(51.5074)
                     .type("Dog")
-                    .imageURL("https://example.com/whiskers.jpg")
+                    .imageURL("https://res.cloudinary.com/deloldrn2/image/upload/v1727788303/grey_dog_ueuwyq.png")
                     .lostDate(LocalDate.parse("2024-09-02"))
                     .build();
 
@@ -65,7 +65,7 @@ public class InitialiseDB {
                     .longitude(-2.2426)
                     .latitude(53.4808)
                     .type("Cat")
-                    .imageURL("https://example.com/mochi.jpg")
+                    .imageURL("https://res.cloudinary.com/deloldrn2/image/upload/v1727788303/cream-cat_rjtd8t.png")
                     .lostDate(LocalDate.parse("2024-08-27"))
                     .build();
 
@@ -95,7 +95,7 @@ public class InitialiseDB {
                     .longitude(-1.4746)
                     .latitude(52.5615)
                     .type("Mouse")
-                    .imageURL("https://example.com/fluffy.jpg")
+                    .imageURL("https://res.cloudinary.com/deloldrn2/image/upload/v1727788303/brown_mouse_intdsv.png")
                     .lostDate(LocalDate.parse("2024-09-23"))
                     .build();
 
@@ -126,7 +126,7 @@ public class InitialiseDB {
                     .longitude(-3.1883)
                     .latitude(55.9533)
                     .type("Dog")
-                    .imageURL("https://example.com/buddy.jpg")
+                    .imageURL("https://res.cloudinary.com/deloldrn2/image/upload/v1727788303/golden_dog_ou3w8u.png")
                     .lostDate(LocalDate.parse("2024-07-26"))
                     .build();
 
@@ -157,7 +157,7 @@ public class InitialiseDB {
                     .longitude(-1.8904)
                     .latitude(52.4862)
                     .type("Bird")
-                    .imageURL("https://example.com/bella.jpg")
+                    .imageURL("https://res.cloudinary.com/deloldrn2/image/upload/v1727788301/white_bird_fzaaxv.png")
                     .lostDate(LocalDate.parse("2024-09-03"))
                     .build();
 
