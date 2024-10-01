@@ -27,13 +27,15 @@ The following instructions will help you to run this project on your local machi
 ```
 
 ## API Documentation
-Insert Swagger docs here
+[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
 ## Usage
 Provide a few examples of how to use the application
 
 ## Configuration
-Provide any information about any environment variables that may be needed, etc
+1. create a .env file in the root of the project
+2. create an account with [Cloudinary](https://cloudinary.com/) and in the .env file assign your API to the CLOUDINARY_URL
+3. create an account with [Neon Postgres](https://neon.tech/) and in the .env file assign your API to the NEON_DB_URL
 
 ## Built With
 - Spring Boot: Java-based framework for building stand-alone, production-grade Spring-based Applications.
