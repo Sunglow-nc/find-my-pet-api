@@ -90,19 +90,16 @@
       <groupId>com.github.ben-manes.caffeine</groupId>
       <artifactId>caffeine</artifactId>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-http44 -->
     <dependency>
       <groupId>com.cloudinary</groupId>
       <artifactId>cloudinary-http44</artifactId>
       <version>1.39.0</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-taglib -->
     <dependency>
       <groupId>com.cloudinary</groupId>
       <artifactId>cloudinary-taglib</artifactId>
       <version>1.39.0</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/io.github.cdimascio/java-dotenv -->
     <dependency>
       <groupId>io.github.cdimascio</groupId>
       <artifactId>java-dotenv</artifactId>

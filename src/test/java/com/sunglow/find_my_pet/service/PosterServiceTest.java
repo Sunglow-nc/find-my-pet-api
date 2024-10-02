@@ -85,12 +85,17 @@ public class PosterServiceTest {
 
         Poster updatedPoster = actualResult.get();
         assertEquals(lastPoster.getTitle(), updatedPoster.getTitle(), "Title should be updated");
-        assertEquals(lastPoster.getDescription(), updatedPoster.getDescription(), "Description should be updated");
-        assertEquals(lastPoster.getDatePosted(), updatedPoster.getDatePosted(), "DatePosted should be updated");
+        assertEquals(lastPoster.getDescription(), updatedPoster.getDescription(),
+            "Description should be updated");
+        assertEquals(lastPoster.getDatePosted(), updatedPoster.getDatePosted(),
+            "DatePosted should be updated");
 
-        assertEquals(lastPet.getName(), updatedPoster.getPet().getName(), "Pet name should be updated");
-        assertEquals(lastPet.getColour(), updatedPoster.getPet().getColour(), "Pet colour should be updated");
-        assertEquals(lastOwner.getEmailAddress(), updatedPoster.getPet().getOwner().getEmailAddress(), "Owner email should be updated");
+        assertEquals(lastPet.getName(), updatedPoster.getPet().getName(),
+            "Pet name should be updated");
+        assertEquals(lastPet.getColour(), updatedPoster.getPet().getColour(),
+            "Pet colour should be updated");
+        assertEquals(lastOwner.getEmailAddress(),
+            updatedPoster.getPet().getOwner().getEmailAddress(), "Owner email should be updated");
     }
 
     @Test
@@ -99,7 +104,8 @@ public class PosterServiceTest {
         Long posterNotFoundNum = 450L;
         when(posterManagerRepository.findById(posterNotFoundNum)).thenReturn(Optional.empty());
 
-        Optional<Poster> actualResult = posterServiceImpl.updatePoster(posterNotFoundNum, lastPoster);
+        Optional<Poster> actualResult = posterServiceImpl.updatePoster(posterNotFoundNum,
+            lastPoster);
 
         assertTrue(actualResult.isEmpty());
     }

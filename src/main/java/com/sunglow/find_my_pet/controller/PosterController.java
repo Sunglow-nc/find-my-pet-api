@@ -156,7 +156,7 @@ public class PosterController {
             e.printStackTrace();
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Image upload failed: " + e.getMessage());
+                .body("Image upload failed: " + e.getMessage());
         }
     }
 }

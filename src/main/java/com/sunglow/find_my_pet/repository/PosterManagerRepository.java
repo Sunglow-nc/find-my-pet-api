@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface PosterManagerRepository extends CrudRepository<Poster, Long> {
+
     List<Poster> findByPet(Pet pet);
 }
