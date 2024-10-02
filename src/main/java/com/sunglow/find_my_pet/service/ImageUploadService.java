@@ -21,15 +21,26 @@ public class ImageUploadService {
     }
 
     public String uploadImage(MultipartFile file) throws IOException {
+        if (file == null || file.isEmpty()) {
+            throw new IOException("File is empty");
+        }
+
         Map<String, Object> params = ObjectUtils.asMap(
             "use_filename", false,
             "unique_filename", true,
             "overwrite", false
         );
 
-        Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), params);
+        try {
+            Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), params);
 
-        return (String) uploadResult.get("secure_url");
+            if (uploadResult == null || !uploadResult.containsKey("secure_url") || uploadResult.get("secure_url") == null) {
+                throw new IOException("Failed to retrieve secure URL from Cloudinary response");
+            }
+            return (String) uploadResult.get("secure_url");
+        } catch (RuntimeException e) {
+            throw new IOException("Cloudinary upload failed: " + e.getMessage(), e);
+        }
     }
 }
 

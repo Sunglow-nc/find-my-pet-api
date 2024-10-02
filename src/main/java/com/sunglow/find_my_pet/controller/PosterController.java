@@ -155,8 +155,18 @@ public class PosterController {
         } catch (IOException e) {
             e.printStackTrace();
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Image upload failed: " + e.getMessage());
+            if (e.getMessage().equals("File is empty")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("File upload failed: File is empty.");
+            } else if (e.getMessage().equals("Failed to retrieve secure URL from Cloudinary response")) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Image upload failed: Cloudinary response issue.");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Image upload failed: " + e.getMessage());
+            }
+
         }
     }
+
 }

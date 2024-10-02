@@ -2,20 +2,23 @@ package com.sunglow.find_my_pet.controller;
 
 import static org.hamcrest.Matchers.closeTo;
 import static org.mockito.Mockito.*;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sunglow.find_my_pet.exception.GlobalExceptionHandler;
 import com.sunglow.find_my_pet.exception.ItemNotFoundException;
 import com.sunglow.find_my_pet.model.Poster;
+
+import com.sunglow.find_my_pet.service.ImageUploadService;
+import com.sunglow.find_my_pet.service.PetServiceImpl;
+
 import com.sunglow.find_my_pet.service.PosterServiceImpl;
 import com.sunglow.find_my_pet.util.PosterBuilderUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -30,12 +33,24 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 @AutoConfigureMockMvc
 @SpringBootTest
 class PosterControllerTest {
 
     @Mock
     private PosterServiceImpl mockPosterServiceImpl;
+
+    @Mock
+    private ImageUploadService imageUploadService;
 
     @InjectMocks
     private PosterController posterController;
@@ -56,6 +71,7 @@ class PosterControllerTest {
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
         samplePosters = PosterBuilderUtil.buildSamplePosters();
+        MockitoAnnotations.openMocks(this);
     }
 
     // Testing getAllPosters
@@ -355,6 +371,50 @@ class PosterControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$[1].pet.isFound").value("true"))
             .andExpect(MockMvcResultMatchers.jsonPath("$[1].pet.longitude")
                 .value(closeTo(-0.987654, 0.000001)));
+    }
+
+
+    @Test
+    void testUploadImage_EmptyFile() throws IOException {
+        MockMultipartFile emptyFile = new MockMultipartFile("file", "empty.jpg", "image/jpeg", new byte[0]);
+        when(imageUploadService.uploadImage(any(MockMultipartFile.class))).thenThrow(new IOException("File is empty"));
+        ResponseEntity<String> response = posterController.uploadImage(emptyFile);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("File upload failed: File is empty.", response.getBody());
+    }
+
+    @Test
+    void testUploadImage_CloudinaryResponseIssue() throws IOException {
+        MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "file content".getBytes());
+        when(imageUploadService.uploadImage(any(MockMultipartFile.class))).thenThrow(new IOException("Failed to retrieve secure URL from Cloudinary response"));
+
+        ResponseEntity<String> response = posterController.uploadImage(file);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Image upload failed: Cloudinary response issue.", response.getBody());
+    }
+
+    @Test
+    void testUploadImage_OtherException() throws IOException {
+        MockMultipartFile file = new MockMultipartFile("file", "test.jpg", "image/jpeg", "file content".getBytes());
+        when(imageUploadService.uploadImage(any(MockMultipartFile.class))).thenThrow(new IOException("Unexpected error"));
+
+        ResponseEntity<String> response = posterController.uploadImage(file);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Image upload failed: Unexpected error", response.getBody());
+    }
+
+    @Test
+    void testUploadImage_Success() throws IOException {
+        MockMultipartFile file = new MockMultipartFile("image", "originalFileName.jpg", "image/jpeg", "image content".getBytes());
+        when(imageUploadService.uploadImage(any(MockMultipartFile.class))).thenReturn("http://image-url.com/image.jpg");
+
+        ResponseEntity<String> response = posterController.uploadImage(file);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("http://image-url.com/image.jpg", response.getBody());
     }
 
 }
