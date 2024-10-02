@@ -113,4 +113,94 @@ class CustomPosterServiceTest {
         assertEquals(String.format("No Pets found with colour %s", colour), exception.getMessage());
         verify(petManagerRepository, times(1)).findByColour(colour);
     }
+
+    @Test
+    void findByTypeWithExistingPetsShouldReturnListOfPets() {
+        // Arrange
+        String type = "dog";
+        Pet pet1 = new Pet();
+        pet1.setId(1L);
+        pet1.setType(type);
+        Pet pet2 = new Pet();
+        pet2.setId(2L);
+        pet2.setType(type);
+        List<Pet> expectedPets = Arrays.asList(pet1, pet2);
+
+        when(petManagerRepository.findByType(type)).thenReturn(expectedPets);
+
+        // Act
+        List<Pet> actualPets = petService.getPetsByType(type);
+
+        // Assert
+        assertEquals(expectedPets, actualPets);
+        verify(petManagerRepository, times(1)).findByType(type);
+    }
+
+    @Test
+    void findByTypeWithNoPetsShouldThrowItemNotFoundException() {
+        // Arrange
+        String type = "unicorn";
+        when(petManagerRepository.findByType(type)).thenReturn(Collections.emptyList());
+
+        // Act & Assert
+        ItemNotFoundException exception = assertThrows(ItemNotFoundException.class,
+            () -> petService.getPetsByType(type));
+
+        assertEquals(String.format("No Pets found with type %s", type), exception.getMessage());
+        verify(petManagerRepository, times(1)).findByType(type);
+    }
+
+    @Test
+    void findByTypeWithNullTypeShouldThrowItemNotFoundException() {
+        // Arrange
+        when(petManagerRepository.findByType(null)).thenReturn(Collections.emptyList());
+
+        // Act & Assert
+        ItemNotFoundException exception = assertThrows(ItemNotFoundException.class,
+            () -> petService.getPetsByType(null));
+
+        assertEquals("No Pets found with type null", exception.getMessage());
+        verify(petManagerRepository, times(1)).findByType(null);
+    }
+
+    @Test
+    void findByTypeWithEmptyTypeShouldThrowItemNotFoundException() {
+        // Arrange
+        when(petManagerRepository.findByType("")).thenReturn(Collections.emptyList());
+
+        // Act & Assert
+        ItemNotFoundException exception = assertThrows(ItemNotFoundException.class,
+            () -> petService.getPetsByType(""));
+
+        assertEquals("No Pets found with type ", exception.getMessage());
+        verify(petManagerRepository, times(1)).findByType("");
+    }
+
+    @Test
+    void findByTypeWithWhitespaceTypeShouldThrowItemNotFoundException() {
+        // Arrange
+        when(petManagerRepository.findByType("   ")).thenReturn(Collections.emptyList());
+
+        // Act & Assert
+        ItemNotFoundException exception = assertThrows(ItemNotFoundException.class,
+            () -> petService.getPetsByType("   "));
+
+        assertEquals("No Pets found with type    ", exception.getMessage());
+        verify(petManagerRepository, times(1)).findByType("   ");
+    }
+
+    @Test
+    void findByTypeWithDifferentCaseShouldBeCaseSensitive() {
+        // Arrange
+        String type = "DOG";
+        when(petManagerRepository.findByType(type)).thenReturn(Collections.emptyList());
+
+        // Act & Assert
+        ItemNotFoundException exception = assertThrows(ItemNotFoundException.class,
+            () -> petService.getPetsByType(type));
+
+        assertEquals(String.format("No Pets found with type %s", type), exception.getMessage());
+        verify(petManagerRepository, times(1)).findByType(type);
+    }
+
 }
