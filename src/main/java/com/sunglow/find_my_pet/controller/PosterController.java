@@ -140,7 +140,14 @@ public class PosterController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Upload an image", description = "Upload image from user device to Cloudinary")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Image uploaded successfully"),
+            @ApiResponse(responseCode = "404", description = "Related entity not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("/posters/image")
+    @CacheEvict(value = "postersCache", allEntries = true)
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
         try {
             String imageUrl = imageUploadService.uploadImage(file);
