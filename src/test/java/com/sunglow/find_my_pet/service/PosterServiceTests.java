@@ -1,9 +1,11 @@
 package com.sunglow.find_my_pet.service;
 
+import com.sunglow.find_my_pet.exception.ItemNotFoundException;
 import com.sunglow.find_my_pet.model.Owner;
 import com.sunglow.find_my_pet.model.Pet;
 import com.sunglow.find_my_pet.model.Poster;
 import com.sunglow.find_my_pet.repository.OwnerManagerRepository;
+import com.sunglow.find_my_pet.repository.PetManagerRepository;
 import com.sunglow.find_my_pet.repository.PosterManagerRepository;
 
 import java.time.LocalDate;
@@ -18,9 +20,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,6 +35,8 @@ public class PosterServiceTests {
     private PosterManagerRepository posterRepository;
     @Mock
     private OwnerManagerRepository ownerRepository;
+    @Mock
+    private PetManagerRepository petManagerRepository;
 
     @InjectMocks
     private PosterServiceImpl posterService;
@@ -72,6 +79,7 @@ public class PosterServiceTests {
             .build();
 
         pet2 = Pet.builder()
+                .id(2L)
             .name("Mochi")
             .colour("Cream")
             .age(2)
@@ -83,6 +91,7 @@ public class PosterServiceTests {
             .build();
 
         owner2 = Owner.builder()
+                .id(2L)
             .name("Kevin Lee")
             .contactNumber("0161 496 0735")
             .emailAddress("kevin.l@geemail.com")
@@ -98,7 +107,7 @@ public class PosterServiceTests {
             .build();
 
         posters = new ArrayList<>();
-        when(posterRepository.findAll()).thenReturn(posters);
+        lenient().when(posterRepository.findAll()).thenReturn(posters);
     }
 
     @Nested
@@ -172,5 +181,81 @@ public class PosterServiceTests {
 
     }
 
+    @Nested
+    class getPostersById {
+
+        @Test
+        @DisplayName("Throws an ItemNotFoundException when there is no poster with the specified ID.")
+        void testGetPosterByIdDoesNotExist() {
+            when(posterRepository.findById(12L)).thenThrow(new ItemNotFoundException("No poster with this ID."));
+            assertThrows(ItemNotFoundException.class, () -> posterService.getPosterById(12L));
+        }
+
+        @Test
+        @DisplayName("Returns the poster with the specified ID.")
+        void testGetPosterByIdSingleItem() {
+            Poster posterWithId2 = Poster.builder()
+                    .id(2L)
+                    .datePosted(LocalDate.parse("2024-09-27"))
+                    .description("Siamese cat with blue eyes. Very vocal and responds to 'Mochi'.")
+                    .title("Lost Siamese Cat - Reward Offered")
+                    .pet(pet2)
+                    .build();
+
+            when(posterRepository.findById(2L)).thenReturn(Optional.of(posterWithId2));
+
+            Poster foundPoster = posterService.getPosterById(2L);
+
+            assertThat(foundPoster).isNotNull();
+            assertThat(foundPoster.getId()).isEqualTo(2L);
+            assertThat(foundPoster.getPet()).isEqualTo(pet2);
+            assertThat(foundPoster.getPet().getOwner()).isEqualTo(owner2);
+            assertThat(foundPoster.getTitle()).isEqualTo("Lost Siamese Cat - Reward Offered");
+            assertThat(foundPoster.getDescription()).isEqualTo(
+                    "Siamese cat with blue eyes. Very vocal and responds to 'Mochi'.");
+            assertThat(foundPoster.getDatePosted()).isEqualTo(LocalDate.parse("2024-09-27"));
+        }
+
+        @Test
+        @DisplayName("Returns the correct poster by ID when multiple posters exist in the repository.")
+        void testGetPosterByIdMultipleItemsUsingFindById() {
+
+            Poster posterWithId1 = Poster.builder()
+                    .id(1L)
+                    .datePosted(LocalDate.parse("2024-09-26"))
+                    .description("Gray tabby cat with green eyes. Wearing a blue collar with a bell.")
+                    .title("Missing Tabby Cat - Please Help")
+                    .pet(pet1)
+                    .build();
+
+            Poster posterWithId2 = Poster.builder()
+                    .id(2L)
+                    .datePosted(LocalDate.parse("2024-09-27"))
+                    .description("Siamese cat with blue eyes. Very vocal and responds to 'Mochi'.")
+                    .title("Lost Siamese Cat - Reward Offered")
+                    .pet(pet2)
+                    .build();
+
+            when(posterRepository.findById(1L)).thenReturn(Optional.of(posterWithId1));
+            when(posterRepository.findById(2L)).thenReturn(Optional.of(posterWithId2));
+
+            Poster foundPosterWithId1 = posterService.getPosterById(1L);
+            Poster foundPosterWithId2 = posterService.getPosterById(2L);
+
+            assertThat(foundPosterWithId1).isNotNull();
+            assertThat(foundPosterWithId1.getId()).isEqualTo(1L);
+            assertThat(foundPosterWithId1.getPet()).isEqualTo(pet1);
+            assertThat(foundPosterWithId1.getTitle()).isEqualTo("Missing Tabby Cat - Please Help");
+            assertThat(foundPosterWithId1.getDescription()).isEqualTo("Gray tabby cat with green eyes. Wearing a blue collar with a bell.");
+            assertThat(foundPosterWithId1.getDatePosted()).isEqualTo(LocalDate.parse("2024-09-26"));
+
+            assertThat(foundPosterWithId2).isNotNull();
+            assertThat(foundPosterWithId2.getId()).isEqualTo(2L);
+            assertThat(foundPosterWithId2.getPet()).isEqualTo(pet2);
+            assertThat(foundPosterWithId2.getTitle()).isEqualTo("Lost Siamese Cat - Reward Offered");
+            assertThat(foundPosterWithId2.getDescription()).isEqualTo("Siamese cat with blue eyes. Very vocal and responds to 'Mochi'.");
+            assertThat(foundPosterWithId2.getDatePosted()).isEqualTo(LocalDate.parse("2024-09-27"));
+        }
+    }
 
 }

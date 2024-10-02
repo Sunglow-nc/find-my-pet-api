@@ -109,9 +109,42 @@ public class PosterBuilderUtil {
             .pet(pet3)
             .build();
 
+        // Poster 4
+        Pet pet4 = Pet.builder()
+                .id(4L)
+                .name("Age")
+                .colour("Black")
+                .age(6)
+                .isFound(true)
+                .longitude(-0.987654)
+                .latitude(52.123456)
+                .type("Dog")
+                .imageURL("https://example.com/age.jpg")
+                .lostDate(LocalDate.parse("2023-12-25"))
+                .build();
+
+        Owner owner4 = Owner.builder()
+                .id(4L)
+                .name("Leonard Petrisor")
+                .contactNumber("+0987654321")
+                .emailAddress("jane.smith@example.com")
+                .pet(pet4)
+                .build();
+
+        pet4.setOwner(owner4);
+
+        Poster poster4 = Poster.builder()
+                .id(4L)
+                .datePosted(LocalDate.parse("2024-10-31"))
+                .description("Black labrador, very energetic found around Halloween time.")
+                .title("Found dog: Age")
+                .pet(pet4)
+                .build();
+
         posters.add(poster1);
         posters.add(poster2);
         posters.add(poster3);
+        posters.add(poster4);
 
         return posters;
     }
