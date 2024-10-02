@@ -9,8 +9,6 @@ import com.sunglow.find_my_pet.repository.PetManagerRepository;
 import com.sunglow.find_my_pet.repository.PosterManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -145,7 +143,9 @@ public class PosterServiceImpl implements PosterService {
     @Transactional(readOnly = true)
     public List<Poster> getPostersByPet(Pet pet) {
         List<Poster> postersByPet = posterManagerRepository.findByPet(pet);
-        if(postersByPet.isEmpty()) throw new ItemNotFoundException(String.format("Cannot find posts for this pet"));
+        if (postersByPet.isEmpty()) {
+            throw new ItemNotFoundException(String.format("Cannot find posts for this pet"));
+        }
         return postersByPet;
     }
 
@@ -154,10 +154,13 @@ public class PosterServiceImpl implements PosterService {
     public List<Poster> getPostersByPetColour(String colour) {
         List<Poster> postersByPetColour = new ArrayList<>();
         List<Pet> petsByColour = petServiceImpl.getPetsByColour(colour);
-        for(Pet pet : petsByColour){
+        for (Pet pet : petsByColour) {
             postersByPetColour.addAll(posterManagerRepository.findByPet(pet));
         }
-        if(postersByPetColour.isEmpty()) throw new ItemNotFoundException(String.format("Cannot find posts for pets with the '%s' colour", colour));
+        if (postersByPetColour.isEmpty()) {
+            throw new ItemNotFoundException(
+                String.format("Cannot find posts for pets with the '%s' colour", colour));
+        }
         return postersByPetColour;
     }
 
@@ -166,11 +169,14 @@ public class PosterServiceImpl implements PosterService {
     public List<Poster> getPostersByPetType(String type) {
         List<Poster> postersByPetType = new ArrayList<>();
         List<Pet> petsByType = petServiceImpl.getPetsByType(type);
-        for(Pet pet : petsByType){
+        for (Pet pet : petsByType) {
             postersByPetType.addAll(posterManagerRepository.findByPet(pet));
         }
-        if(postersByPetType.isEmpty()) throw new ItemNotFoundException(String.format("Cannot find posts for pets of the type '%s'", type));
+        if (postersByPetType.isEmpty()) {
+            throw new ItemNotFoundException(
+                String.format("Cannot find posts for pets of the type '%s'", type));
+        }
         return postersByPetType;
     }
-  
+
 }
