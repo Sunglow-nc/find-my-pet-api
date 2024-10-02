@@ -1,7 +1,5 @@
 package com.sunglow.find_my_pet.config;
 
-
-
 import com.cloudinary.Cloudinary;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +18,8 @@ public class CloudinaryConfig {
         }
 
         if (cloudinaryUrl == null || cloudinaryUrl.isEmpty()) {
-            throw new IllegalStateException("CLOUDINARY_URL environment variable is not set or empty");
+            throw new IllegalStateException(
+                "CLOUDINARY_URL environment variable is not set or empty");
         }
 
         Cloudinary cloudinary = new Cloudinary(cloudinaryUrl);

@@ -8,14 +8,16 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootApplication
 @EnableCaching
 public class FindMyPetApplication {
-	static{
-		Dotenv dotenv = Dotenv.configure().load();
-		System.setProperty("NEON_DB_URL", dotenv.get("NEON_DB_URL"));
-		System.setProperty("NEON_DB_USERNAME", dotenv.get("NEON_DB_USERNAME"));
-		System.setProperty("NEON_DB_PASSWORD", dotenv.get("NEON_DB_PASSWORD"));
-	}
-	public static void main(String[] args) {
-		SpringApplication.run(FindMyPetApplication.class, args);
-	}
+
+    static {
+        Dotenv dotenv = Dotenv.configure().load();
+        System.setProperty("NEON_DB_URL", dotenv.get("NEON_DB_URL"));
+        System.setProperty("NEON_DB_USERNAME", dotenv.get("NEON_DB_USERNAME"));
+        System.setProperty("NEON_DB_PASSWORD", dotenv.get("NEON_DB_PASSWORD"));
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(FindMyPetApplication.class, args);
+    }
 
 }

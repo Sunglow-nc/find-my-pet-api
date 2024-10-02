@@ -26,9 +26,9 @@ public class ImageUploadService {
         }
 
         Map<String, Object> params = ObjectUtils.asMap(
-                "use_filename", false,
-                "unique_filename", true,
-                "overwrite", false
+            "use_filename", false,
+            "unique_filename", true,
+            "overwrite", false
         );
 
         try {

@@ -22,7 +22,7 @@ public class PosterBuilderUtil {
             .isFound(false)
             .longitude(-1.234567)
             .latitude(53.456789)
-                .type("Dog")
+            .type("Dog")
             .imageURL("https://example.com/buddy.jpg")
             .lostDate(LocalDate.parse("2024-03-15"))
             .build();
@@ -54,7 +54,7 @@ public class PosterBuilderUtil {
             .isFound(false)
             .longitude(-0.987654)
             .latitude(52.123456)
-                .type("Cat")
+            .type("Cat")
             .imageURL("https://example.com/luna.jpg")
             .lostDate(LocalDate.parse("2023-12-25"))
             .build();
@@ -86,7 +86,7 @@ public class PosterBuilderUtil {
             .isFound(true)
             .longitude(-2.345678)
             .latitude(54.123456)
-                .type("Dog")
+            .type("Dog")
             .imageURL("https://example.com/max.jpg")
             .lostDate(LocalDate.parse("2024-05-01"))
             .build();
@@ -104,42 +104,43 @@ public class PosterBuilderUtil {
         Poster poster3 = Poster.builder()
             .id(3L)
             .datePosted(LocalDate.parse("2024-05-02"))
-            .description("Found a brown and white dog near the riverbank. Very playful and healthy.")
+            .description(
+                "Found a brown and white dog near the riverbank. Very playful and healthy.")
             .title("Found Dog: Max")
             .pet(pet3)
             .build();
 
         // Poster 4
         Pet pet4 = Pet.builder()
-                .id(4L)
-                .name("Age")
-                .colour("Black")
-                .age(6)
-                .isFound(true)
-                .longitude(-0.987654)
-                .latitude(52.123456)
-                .type("Dog")
-                .imageURL("https://example.com/age.jpg")
-                .lostDate(LocalDate.parse("2023-12-25"))
-                .build();
+            .id(4L)
+            .name("Age")
+            .colour("Black")
+            .age(6)
+            .isFound(true)
+            .longitude(-0.987654)
+            .latitude(52.123456)
+            .type("Dog")
+            .imageURL("https://example.com/age.jpg")
+            .lostDate(LocalDate.parse("2023-12-25"))
+            .build();
 
         Owner owner4 = Owner.builder()
-                .id(4L)
-                .name("Leonard Petrisor")
-                .contactNumber("+0987654321")
-                .emailAddress("jane.smith@example.com")
-                .pet(pet4)
-                .build();
+            .id(4L)
+            .name("Leonard Petrisor")
+            .contactNumber("+0987654321")
+            .emailAddress("jane.smith@example.com")
+            .pet(pet4)
+            .build();
 
         pet4.setOwner(owner4);
 
         Poster poster4 = Poster.builder()
-                .id(4L)
-                .datePosted(LocalDate.parse("2024-10-31"))
-                .description("Black labrador, very energetic found around Halloween time.")
-                .title("Found dog: Age")
-                .pet(pet4)
-                .build();
+            .id(4L)
+            .datePosted(LocalDate.parse("2024-10-31"))
+            .description("Black labrador, very energetic found around Halloween time.")
+            .title("Found dog: Age")
+            .pet(pet4)
+            .build();
 
         posters.add(poster1);
         posters.add(poster2);

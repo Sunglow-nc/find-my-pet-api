@@ -165,6 +165,7 @@ public class PosterController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body("Image upload failed: " + e.getMessage());
             }
+
         }
     }
 
