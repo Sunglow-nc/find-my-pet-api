@@ -90,7 +90,7 @@ public class InitialiseDB {
                 posterRepository.save(poster2);
 
                 Pet pet3 = Pet.builder()
-                    .name("Fluffy")
+                    .name("Jerry")
                     .colour("Brown")
                     .age(5)
                     .isFound(false)
@@ -114,8 +114,8 @@ public class InitialiseDB {
                 Poster poster3 = Poster.builder()
                     .datePosted(LocalDate.parse("2024-09-24"))
                     .description(
-                        "Large Maine Coon cat with long fur. Very friendly and may approach if called.")
-                    .title("Missing Maine Coon - Please Contact If Seen")
+                        "Large mouse with long fur. Love to hang out with a cat named Tom.")
+                    .title("Missing Mouse - Please Contact If Seen")
                     .pet(pet3)
                     .build();
 
@@ -177,12 +177,74 @@ public class InitialiseDB {
 
                 Poster poster5 = Poster.builder()
                     .datePosted(LocalDate.parse("2024-09-09"))
-                    .description("Small white poodle, recently groomed. Wearing a pink bow.")
-                    .title("Missing Poodle - Please Call If Seen")
+                    .description("Small white bird, very fluffy and friendly. This bird has a distinct, pure white appearance and might be timid but approachable. If found or spotted, please contact me. Thank you for helping reunite this little one with its family!")
+                    .title("Lost White Bird – Small, Fluffy, and Friendly")
                     .pet(pet5)
                     .build();
 
                 posterRepository.save(poster5);
+
+                Pet pet7 = Pet.builder()
+                        .name("Shawn")
+                        .colour("White")
+                        .age(4)
+                        .isFound(false)
+                        .longitude(-2.5879)
+                        .latitude(51.4545)
+                        .type("Sheep")
+                        .imageURL("https://res.cloudinary.com/deloldrn2/image/upload/v1728380044/Shaun_the_Sheep_yjgfxo.png")
+                        .lostDate(LocalDate.parse("2024-09-12"))
+                        .build();
+
+                Owner owner7 = Owner.builder()
+                        .name("Emma Brown")
+                        .contactNumber("07456123789")
+                        .emailAddress("emma.brown@yahoo.com")
+                        .pet(pet7)
+                        .build();
+
+                ownerRepository.save(owner7);
+
+                Poster poster7 = Poster.builder()
+                        .datePosted(LocalDate.parse("2024-09-16"))
+                        .description("Shawn is a 4-year-old, friendly white sheep. He has a thick, fluffy wool coat and was last seen near Bristol. Shawn might be wandering nearby, grazing. If you spot him or have any information, please contact me. Your help in bringing Shawn home is greatly appreciated!")
+                        .title("Lost Sheep – Shawn the Sheep")
+                        .pet(pet7)
+                        .build();
+
+                posterRepository.save(poster7);
+
+                Pet pet8 = Pet.builder()
+                        .name("Flareon")
+                        .colour("Crimson Red")
+                        .age(5)
+                        .isFound(false)
+                        .longitude(-2.58670837036)
+                        .latitude(51.4489503074)
+                        .type("Fire Fox")
+                        .imageURL("https://res.cloudinary.com/deloldrn2/image/upload/v1728382042/fox_napsj5.png")
+                        .lostDate(LocalDate.parse("2024-09-18"))
+                        .build();
+
+                Owner owner8 = Owner.builder()
+                        .name("Ash Ketchum")
+                        .contactNumber("07123456789")
+                        .emailAddress("ash.ketchum@palettown.com")
+                        .pet(pet8)
+                        .build();
+
+                ownerRepository.save(owner8);
+
+                Poster poster8 = Poster.builder()
+                        .datePosted(LocalDate.parse("2024-09-20"))
+                        .description("Flareon is a majestic fire fox with a striking crimson red coat and glowing embers at the tip of its tail. Last seen near [location], Flareon is friendly but may cause small sparks when frightened. Please help us find this beloved companion. If you spot Flareon, avoid sudden movements and contact me immediately. We greatly appreciate your help in bringing Flareon home safely!")
+                        .title("Lost Fire Fox – Flareon, Crimson Red")
+                        .pet(pet8)
+                        .build();
+
+                posterRepository.save(poster8);
+
+
                 initialised = true;
             }
         };
